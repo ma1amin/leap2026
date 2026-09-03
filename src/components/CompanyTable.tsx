@@ -23,9 +23,12 @@ interface Company {
 
 interface CompanyTableProps {
   companies: Company[];
+  loading?: boolean;
+  selectedIds?: Set<string>;
+  onSelectionChange?: (selectedIds: Set<string>) => void;
 }
 
-export default function CompanyTable({ companies }: CompanyTableProps) {
+export default function CompanyTable({ companies, loading = false, selectedIds = new Set(), onSelectionChange }: CompanyTableProps) {
   const getCategoryColor = (category?: string) => {
     const colors: Record<string, string> = {
       cybersecurity: 'bg-red-100 text-red-800',
@@ -42,12 +45,109 @@ export default function CompanyTable({ companies }: CompanyTableProps) {
     return colors[category || 'other'] || colors.other;
   };
 
+  const handleSelectAll = (checked: boolean) => {
+    const newSelectedIds = new Set<string>();
+    if (checked) {
+      companies.forEach(company => newSelectedIds.add(company.id));
+    }
+    onSelectionChange?.(newSelectedIds);
+  };
+
+  const handleSelectOne = (id: string, checked: boolean) => {
+    const newSelectedIds = new Set(selectedIds);
+    if (checked) {
+      newSelectedIds.add(id);
+    } else {
+      newSelectedIds.delete(id);
+    }
+    onSelectionChange?.(newSelectedIds);
+  };
+
+  const allSelected = companies.length > 0 && companies.every(company => selectedIds.has(company.id));
+  const someSelected = selectedIds.size > 0 && !allSelected;
+
+  if (loading) {
+    return (
+      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50 border-b border-gray-200">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-48">
+                  Company
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Description
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-32">
+                  Category
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-40">
+                  Contact
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-32">
+                  Social
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-24">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <tr key={i}>
+                  <td className="px-4 py-4">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2 animate-pulse"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/2 animate-pulse"></div>
+                  </td>
+                  <td className="px-4 py-4">
+                    <div className="h-4 bg-gray-200 rounded w-full mb-1 animate-pulse"></div>
+                    <div className="h-3 bg-gray-200 rounded w-2/3 animate-pulse"></div>
+                  </td>
+                  <td className="px-4 py-4">
+                    <div className="h-6 bg-gray-200 rounded w-16 animate-pulse"></div>
+                  </td>
+                  <td className="px-4 py-4">
+                    <div className="h-4 bg-gray-200 rounded w-1/2 mb-1 animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 rounded w-1/3 animate-pulse"></div>
+                  </td>
+                  <td className="px-4 py-4">
+                    <div className="h-4 bg-gray-200 rounded w-1/2 animate-pulse"></div>
+                  </td>
+                  <td className="px-4 py-4">
+                    <div className="h-4 bg-gray-200 rounded w-12 animate-pulse"></div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  if (companies.length === 0) {
+    return (
+      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm p-12 text-center">
+        <div className="text-gray-500">No companies found</div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-12">
+                <input
+                  type="checkbox"
+                  checked={allSelected}
+                  onChange={(e) => handleSelectAll(e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+              </th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-48">
                 Company
               </th>
@@ -71,6 +171,14 @@ export default function CompanyTable({ companies }: CompanyTableProps) {
           <tbody className="divide-y divide-gray-200">
             {companies.map((company) => (
               <tr key={company.id} className="hover:bg-gray-50 transition-colors">
+                <td className="px-4 py-4">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.has(company.id)}
+                    onChange={(e) => handleSelectOne(company.id, e.target.checked)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                </td>
                 <td className="px-4 py-4">
                   <div className="flex flex-col">
                     <Link

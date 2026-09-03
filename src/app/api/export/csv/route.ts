@@ -1,9 +1,24 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const searchParams = request.nextUrl.searchParams;
+    const ids = searchParams.get('ids');
+    const category = searchParams.get('category');
+
+    const where: any = {};
+
+    if (ids) {
+      where.id = { in: ids.split(',') };
+    }
+
+    if (category && category !== 'all') {
+      where.category = category;
+    }
+
     const companies = await prisma.company.findMany({
+      where,
       orderBy: { name: 'asc' },
     });
 
@@ -12,6 +27,7 @@ export async function GET() {
       'Name (Arabic)',
       'Description',
       'Description (Arabic)',
+      'Category',
       'Website',
       'Email',
       'Phone',
@@ -22,29 +38,25 @@ export async function GET() {
       'Hall',
     ];
 
-    const csvRows = [
-      headers.join(','),
-      ...companies.map((company) =>
-        [
-          company.name,
-          company.nameAr || '',
-          company.description.replace(/,/g, ';'),
-          company.descriptionAr?.replace(/,/g, ';') || '',
-          company.website || '',
-          company.email || '',
-          company.phone || '',
-          company.linkedin || '',
-          company.twitter || '',
-          company.instagram || '',
-          company.booth || '',
-          company.hall || '',
-        ].join(',')
-      ),
-    ];
+    const rows = companies.map((company) => [
+      company.name,
+      company.nameAr || '',
+      company.description.replace(/,/g, ';'),
+      company.descriptionAr?.replace(/,/g, ';') || '',
+      company.category || '',
+      company.website || '',
+      company.email || '',
+      company.phone || '',
+      company.linkedin || '',
+      company.twitter || '',
+      company.instagram || '',
+      company.booth || '',
+      company.hall || '',
+    ]);
 
-    const csvContent = csvRows.join('\n');
+    const csv = [headers.join(','), ...rows.map((row) => row.join(','))].join('\n');
 
-    return new NextResponse(csvContent, {
+    return new NextResponse(csv, {
       headers: {
         'Content-Type': 'text/csv',
         'Content-Disposition': 'attachment; filename="cybersecurity-companies.csv"',
