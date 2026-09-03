@@ -5,6 +5,7 @@ import CompanyTable from '@/components/CompanyTable';
 import SearchBar from '@/components/SearchBar';
 import ExportButton from '@/components/ExportButton';
 import DashboardStats from '@/components/DashboardStats';
+import Toast from '@/components/Toast';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Company {
@@ -35,6 +36,7 @@ export default function Home() {
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
   const itemsPerPage = 20;
 
   const categories = ['all', 'cybersecurity', 'ai', 'fintech', 'cloud', 'infrastructure', 'consulting', 'healthcare', 'education', 'retail', 'other'];
@@ -153,15 +155,16 @@ export default function Home() {
                 onClick={() => {
                   const ids = Array.from(selectedIds).join(',');
                   window.open(`/api/export/csv?ids=${ids}`, '_blank');
+                  setToast({ message: `Exported ${selectedIds.size} companies`, type: 'success' });
                 }}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
               >
                 Export Selected ({selectedIds.size})
               </button>
             )}
-            <ExportButton format="csv" label="Export All CSV" />
-            <ExportButton format="excel" label="Export All Excel" />
-            <ExportButton format="json" label="Export All JSON" />
+            <ExportButton format="csv" label="Export All CSV" onExport={() => setToast({ message: 'Exported all companies to CSV', type: 'success' })} />
+            <ExportButton format="excel" label="Export All Excel" onExport={() => setToast({ message: 'Exported all companies to Excel', type: 'success' })} />
+            <ExportButton format="json" label="Export All JSON" onExport={() => setToast({ message: 'Exported all companies to JSON', type: 'success' })} />
           </div>
         </div>
 
@@ -222,6 +225,14 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }

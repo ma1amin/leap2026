@@ -6,9 +6,10 @@ import { useState } from 'react';
 interface ExportButtonProps {
   format: 'csv' | 'excel' | 'json';
   label: string;
+  onExport?: () => void;
 }
 
-export default function ExportButton({ format, label }: ExportButtonProps) {
+export default function ExportButton({ format, label, onExport }: ExportButtonProps) {
   const [isExporting, setIsExporting] = useState(false);
 
   const handleExport = async () => {
@@ -29,6 +30,8 @@ export default function ExportButton({ format, label }: ExportButtonProps) {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
+      
+      onExport?.();
     } catch (error) {
       console.error('Export failed:', error);
       alert('Export failed. Please try again.');
