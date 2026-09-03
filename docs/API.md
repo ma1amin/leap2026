@@ -12,10 +12,12 @@ This document describes the API endpoints for the LEAP 2026 Cybersecurity Direct
 ### Companies
 
 #### GET /api/companies
-Get all companies with optional search and pagination.
+Get all companies with optional search, category, hall, and pagination.
 
 **Query Parameters:**
 - `search` (optional): Search query to filter companies by name or description
+- `category` (optional): Filter by category (cybersecurity, ai, fintech, cloud, infrastructure, consulting, healthcare, education, retail, other)
+- `hall` (optional): Filter by hall (H1, H2, H3, H4, H5, H1A)
 - `page` (optional): Page number (default: 1)
 - `limit` (optional): Number of items per page (default: 20)
 
@@ -130,11 +132,14 @@ Content-Type: application/json
 ### Export
 
 #### GET /api/export/csv
-Export all companies as CSV file.
+Export companies as CSV.
+
+**Query Parameters:**
+- `ids` (optional): Comma-separated list of company IDs to export
+- `category` (optional): Filter by category
 
 **Response:**
-- Content-Type: text/csv
-- Content-Disposition: attachment; filename="cybersecurity-companies.csv"
+CSV file with headers: Name, Name (Arabic), Description, Description (Arabic), Category, Website, Email, Phone, LinkedIn, Twitter, Instagram, Booth, Hall
 
 **Example:**
 ```bash
@@ -142,7 +147,11 @@ GET /api/export/csv
 ```
 
 #### GET /api/export/excel
-Export all companies as Excel (XLSX) file.
+Export companies as Excel (XLSX) file.
+
+**Query Parameters:**
+- `ids` (optional): Comma-separated list of company IDs to export
+- `category` (optional): Filter by category
 
 **Response:**
 - Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
@@ -163,6 +172,34 @@ Export all companies as JSON file.
 **Example:**
 ```bash
 GET /api/export/json
+```
+
+### Statistics
+
+#### GET /api/stats
+Get dashboard statistics.
+
+**Response:**
+```json
+{
+  "total": number,
+  "withWebsites": number,
+  "withEmail": number,
+  "withPhone": number,
+  "withSocial": number,
+  "byCategory": {
+    "cybersecurity": number,
+    "ai": number,
+    "fintech": number,
+    "cloud": number,
+    "infrastructure": number,
+    "consulting": number,
+    "healthcare": number,
+    "education": number,
+    "retail": number,
+    "other": number
+  }
+}
 ```
 
 ## Error Responses

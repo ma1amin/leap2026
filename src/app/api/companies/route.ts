@@ -6,6 +6,7 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const search = searchParams.get('search');
     const category = searchParams.get('category');
+    const hall = searchParams.get('hall');
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '20');
 
@@ -20,6 +21,10 @@ export async function GET(request: NextRequest) {
 
     if (category && category !== 'all') {
       where.category = category;
+    }
+
+    if (hall && hall !== 'all') {
+      where.hall = hall;
     }
 
     const [companies, total] = await Promise.all([

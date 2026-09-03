@@ -29,6 +29,7 @@ export default function Home() {
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [hallFilter, setHallFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -37,10 +38,11 @@ export default function Home() {
   const itemsPerPage = 20;
 
   const categories = ['all', 'cybersecurity', 'ai', 'fintech', 'cloud', 'infrastructure', 'consulting', 'healthcare', 'education', 'retail', 'other'];
+  const halls = ['all', 'H1', 'H2', 'H3', 'H4', 'H5', 'H1A'];
 
   useEffect(() => {
     fetchCompanies();
-  }, [currentPage, categoryFilter]);
+  }, [currentPage, categoryFilter, hallFilter]);
 
   useEffect(() => {
     if (searchQuery) {
@@ -60,7 +62,8 @@ export default function Home() {
     setLoading(true);
     try {
       const categoryParam = categoryFilter !== 'all' ? `&category=${categoryFilter}` : '';
-      const response = await fetch(`/api/companies?page=${currentPage}&limit=${itemsPerPage}${categoryParam}`);
+      const hallParam = hallFilter !== 'all' ? `&hall=${hallFilter}` : '';
+      const response = await fetch(`/api/companies?page=${currentPage}&limit=${itemsPerPage}${categoryParam}${hallParam}`);
       const data = await response.json();
       setCompanies(data.companies);
       setTotalPages(data.pagination.totalPages);
@@ -100,7 +103,7 @@ export default function Home() {
 
         <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
           <div className="flex flex-col sm:flex-row gap-4 w-full">
-            <div className="w-full sm:w-64">
+            <div className="w-full sm:w-48">
               <select
                 value={categoryFilter}
                 onChange={(e) => {
@@ -120,6 +123,24 @@ export default function Home() {
                 <option value="education">Education</option>
                 <option value="retail">Retail</option>
                 <option value="other">Other</option>
+              </select>
+            </div>
+            <div className="w-full sm:w-48">
+              <select
+                value={hallFilter}
+                onChange={(e) => {
+                  setHallFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="all">All Halls</option>
+                <option value="H1">H1</option>
+                <option value="H2">H2</option>
+                <option value="H3">H3</option>
+                <option value="H4">H4</option>
+                <option value="H5">H5</option>
+                <option value="H1A">H1A</option>
               </select>
             </div>
             <div className="w-full sm:w-96">

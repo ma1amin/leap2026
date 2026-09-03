@@ -157,6 +157,9 @@ export default function CompanyTable({ companies, loading = false, selectedIds =
               <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-32">
                 Category
               </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-20">
+                Hall
+              </th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-40">
                 Contact
               </th>
@@ -220,6 +223,16 @@ export default function CompanyTable({ companies, loading = false, selectedIds =
                     </span>
                   )}
                   {!company.category && (
+                    <span className="text-xs text-gray-400 italic">N/A</span>
+                  )}
+                </td>
+                <td className="px-4 py-4">
+                  {company.hall && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
+                      {company.hall}
+                    </span>
+                  )}
+                  {!company.hall && (
                     <span className="text-xs text-gray-400 italic">N/A</span>
                   )}
                 </td>

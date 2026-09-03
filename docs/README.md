@@ -1,20 +1,24 @@
-# LEAP 2026 Cybersecurity Directory
+# LEAP 2026 Directory
 
-A cybersecurity-focused directory platform based on the LEAP 2026 exhibition, featuring filtered company listings, full contact details, and export capabilities.
+A comprehensive directory platform for all 1,475 LEAP 2026 exhibition companies, featuring category classification, contact enrichment, and advanced export capabilities.
 
 ## Overview
 
-This platform extracts and filters cybersecurity companies from the LEAP 2026 directory (1475 companies), enriches their data with contact information (email, phone, social media), and provides a searchable interface with export functionality.
+This platform extracts all companies from the LEAP 2026 directory (1,475 companies), classifies them by category (cybersecurity, AI, fintech, cloud, infrastructure, consulting, healthcare, education, retail, other), enriches their data with contact information (email, phone, social media), and provides a searchable interface with export functionality.
 
 ## Features
 
-- **Cybersecurity Filtering**: AI-powered keyword matching to identify cybersecurity companies (235 companies extracted from 1,475 total)
+- **All Companies**: Complete directory of 1,475 LEAP 2026 companies with category classification
+- **Category Filtering**: Filter by category (cybersecurity, AI, fintech, cloud, infrastructure, consulting, healthcare, education, retail, other)
+- **Hall Filtering**: Filter by exhibition hall (H1, H2, H3, H4, H5, H1A)
 - **Contact Enrichment**: Automated web scraping to extract email, phone, and social media details using puppeteer-core
 - **Searchable Interface**: Real-time search and filter functionality
+- **Multi-Select Export**: Select specific companies for export
 - **Pagination**: 20 companies per page with navigation controls
 - **Export Options**: Bulk export in CSV, Excel (XLSX), and JSON formats with loading states
+- **Dashboard Statistics**: Real-time statistics showing company counts by category, websites, contact info, and social media
+- **Modern UI**: Gradient header, skeleton loading states, responsive design
 - **Bilingual Support**: Arabic and English company descriptions
-- **Responsive Design**: Mobile-friendly interface with optimized table layout
 
 ## Tech Stack
 

@@ -16,7 +16,7 @@ The data pipeline consists of three main stages:
 - Total companies: 1475
 
 ### Method
-Using puppeteer-core with native Chrome installation to avoid Windows security policy blocking. The script extracts company data from the JavaScript variable D in the LEAP directory page and also extracts websites from the HTML structure.
+Using puppeteer-core with native Chrome installation to avoid Windows security policy blocking. The script extracts all company data from the JavaScript variable D in the LEAP directory page and also extracts websites from the HTML structure. Companies are automatically categorized based on keyword matching.
 
 ### Output
 - `data/companies.json`: JSON file containing company data
@@ -79,14 +79,26 @@ For each cybersecurity company:
 5. Flag companies with missing data for manual entry
 
 ### Current Status
-- **Total companies extracted**: 235 cybersecurity companies from LEAP 2026 directory (out of 1,475 total companies)
-- **Companies with websites**: 586 (from all companies)
-- **Companies enriched**: 235 (all cybersecurity companies with websites)
+- **Total companies extracted**: 1,475 companies from LEAP 2026 directory
+- **Companies with websites**: 586
+- **Companies enriched**: 586 (all companies with websites)
 - **Companies requiring manual entry**: None (manual entry not available)
+
+### Category Breakdown
+- AI: 437 companies
+- Other: 535 companies
+- Infrastructure: 178 companies
+- Cybersecurity: 232 companies
+- Fintech: 35 companies
+- Cloud: 11 companies
+- Consulting: 37 companies
+- Healthcare: 5 companies
+- Education: 4 companies
+- Retail: 1 company
 
 ### Enrichment Results
 
-All 235 cybersecurity companies have been processed for contact enrichment. Companies with valid websites were scraped for email, phone, and social media links. Invalid data was cleaned up automatically.
+All 586 companies with websites have been processed for contact enrichment. Companies with valid websites were scraped for email, phone, and social media links. Invalid data was cleaned up automatically.
 
 **Note**: Due to the large number of companies, individual enrichment results are not listed here. Use the application to view detailed contact information for each company.
 
@@ -115,7 +127,7 @@ model Company {
 ## Scripts
 
 ### `scripts/scrape-leap.ts`
-Scrapes the LEAP directory to extract all companies and filters cybersecurity companies.
+Scrapes the LEAP directory to extract all companies and auto-assigns categories.
 
 **Usage:**
 ```bash
@@ -126,8 +138,8 @@ npx ts-node scripts/scrape-leap.ts
 - Uses puppeteer-core with native Chrome installation
 - Extracts company data from JavaScript variable D in the page
 - Extracts websites from HTML structure
-- Filters companies using cybersecurity keywords
-- Outputs filtered companies to data/companies.json
+- Auto-assigns categories based on keyword matching (cybersecurity, ai, fintech, cloud, infrastructure, consulting, healthcare, education, retail, other)
+- Outputs all companies to data/companies.json
 
 ### `scripts/seed-database.ts`
 Seeds the database with company data from companies.json.
