@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import CompanyTable from '@/components/CompanyTable';
 import SearchBar from '@/components/SearchBar';
 import ExportButton from '@/components/ExportButton';
+import DashboardStats from '@/components/DashboardStats';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Company {
@@ -27,15 +28,18 @@ export default function Home() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
   const itemsPerPage = 20;
 
+  const categories = ['all', 'cybersecurity', 'ai', 'fintech', 'cloud', 'infrastructure', 'consulting', 'healthcare', 'education', 'retail', 'other'];
+
   useEffect(() => {
     fetchCompanies();
-  }, [currentPage]);
+  }, [currentPage, categoryFilter]);
 
   useEffect(() => {
     if (searchQuery) {
@@ -54,7 +58,8 @@ export default function Home() {
   const fetchCompanies = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/companies?page=${currentPage}&limit=${itemsPerPage}`);
+      const categoryParam = categoryFilter !== 'all' ? `&category=${categoryFilter}` : '';
+      const response = await fetch(`/api/companies?page=${currentPage}&limit=${itemsPerPage}${categoryParam}`);
       const data = await response.json();
       setCompanies(data.companies);
       setTotalPages(data.pagination.totalPages);
@@ -81,18 +86,44 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            LEAP 2026 Cybersecurity Directory
+        <div className="mb-8 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-xl p-8 text-white shadow-lg">
+          <h1 className="text-4xl font-bold mb-2">
+            LEAP 2026 Directory
           </h1>
-          <p className="text-gray-600">
-            Browse cybersecurity companies from LEAP 2026 exhibition
+          <p className="text-blue-100 text-lg">
+            Browse all 1,475 companies from LEAP 2026 exhibition
           </p>
         </div>
 
+        <DashboardStats />
+
         <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
-          <div className="w-full sm:w-96">
-            <SearchBar value={searchQuery} onChange={setSearchQuery} />
+          <div className="flex flex-col sm:flex-row gap-4 w-full">
+            <div className="w-full sm:w-64">
+              <select
+                value={categoryFilter}
+                onChange={(e) => {
+                  setCategoryFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="all">All Categories</option>
+                <option value="cybersecurity">Cybersecurity</option>
+                <option value="ai">AI</option>
+                <option value="fintech">Fintech</option>
+                <option value="cloud">Cloud</option>
+                <option value="infrastructure">Infrastructure</option>
+                <option value="consulting">Consulting</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="education">Education</option>
+                <option value="retail">Retail</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div className="w-full sm:w-96">
+              <SearchBar value={searchQuery} onChange={setSearchQuery} />
+            </div>
           </div>
           <div className="flex gap-2">
             <ExportButton format="csv" label="Export CSV" />

@@ -26,8 +26,24 @@ interface CompanyTableProps {
 }
 
 export default function CompanyTable({ companies }: CompanyTableProps) {
+  const getCategoryColor = (category?: string) => {
+    const colors: Record<string, string> = {
+      cybersecurity: 'bg-red-100 text-red-800',
+      ai: 'bg-purple-100 text-purple-800',
+      fintech: 'bg-green-100 text-green-800',
+      cloud: 'bg-blue-100 text-blue-800',
+      infrastructure: 'bg-orange-100 text-orange-800',
+      consulting: 'bg-yellow-100 text-yellow-800',
+      healthcare: 'bg-pink-100 text-pink-800',
+      education: 'bg-indigo-100 text-indigo-800',
+      retail: 'bg-teal-100 text-teal-800',
+      other: 'bg-gray-100 text-gray-800',
+    };
+    return colors[category || 'other'] || colors.other;
+  };
+
   return (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50 border-b border-gray-200">
@@ -37,6 +53,9 @@ export default function CompanyTable({ companies }: CompanyTableProps) {
               </th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 Description
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-32">
+                Category
               </th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-40">
                 Contact
@@ -84,6 +103,16 @@ export default function CompanyTable({ companies }: CompanyTableProps) {
                     <div className="text-xs text-gray-500 line-clamp-1 mt-1" title={company.descriptionAr}>
                       {company.descriptionAr}
                     </div>
+                  )}
+                </td>
+                <td className="px-4 py-4">
+                  {company.category && (
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(company.category)}`}>
+                      {company.category}
+                    </span>
+                  )}
+                  {!company.category && (
+                    <span className="text-xs text-gray-400 italic">N/A</span>
                   )}
                 </td>
                 <td className="px-4 py-4">
