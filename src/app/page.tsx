@@ -46,7 +46,7 @@ export default function Home() {
 
   const fetchCompanies = async () => {
     try {
-      const response = await fetch('/api/companies');
+      const response = await fetch('/api/companies?limit=1000');
       const data = await response.json();
       setCompanies(data.companies);
       setFilteredCompanies(data.companies);
