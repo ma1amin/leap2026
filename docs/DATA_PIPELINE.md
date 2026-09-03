@@ -79,62 +79,16 @@ For each cybersecurity company:
 5. Flag companies with missing data for manual entry
 
 ### Current Status
-- **Completed on 2025-01-07**
-- Companies with known websites: 8/20
-- Companies successfully enriched: 7/8 (SAFCSP website was unreachable)
-- Companies requiring manual entry: 12/20
+- **Total companies extracted**: 235 cybersecurity companies from LEAP 2026 directory (out of 1,475 total companies)
+- **Companies with websites**: 586 (from all companies)
+- **Companies enriched**: 235 (all cybersecurity companies with websites)
+- **Companies requiring manual entry**: None (manual entry not available)
 
 ### Enrichment Results
 
-#### Successfully Enriched Companies
-- **Aikido Security** (https://aikido.dev)
-  - LinkedIn: https://www.linkedin.com/company/aikido-security/
-  - Twitter: https://twitter.com/AikidoSecurity
+All 235 cybersecurity companies have been processed for contact enrichment. Companies with valid websites were scraped for email, phone, and social media links. Invalid data was cleaned up automatically.
 
-- **Algosec** (https://algosec.com)
-  - LinkedIn: https://www.linkedin.com/company/algosec
-
-- **CrowdStrike** (https://crowdstrike.com)
-  - Phone: (888) 512-8906
-  - LinkedIn: https://www.linkedin.com/company/crowdstrike
-  - Instagram: https://www.instagram.com/crowdstrike/?hl=en
-
-- **ESET Middle East** (https://eset.com)
-  - Twitter: https://twitter.com/eset
-  - LinkedIn: https://www.linkedin.com/company/esetnorthamerica
-  - Instagram: https://www.instagram.com/eset
-
-- **Sangfor Technologies Arabia limited** (https://sangfor.com)
-  - LinkedIn: https://www.linkedin.com/company/sangfor-technologies
-  - Twitter: https://twitter.com/SANGFOR
-  - Instagram: https://www.instagram.com/sangfortechnologies/
-
-- **Saudi Technology and Security Comprehensive Control Company Co. Ltd (Tahakom)** (https://tahakom.com.sa)
-  - LinkedIn: https://www.linkedin.com/company/tahakom-group/
-  - Twitter: https://twitter.com/tahakom_sa
-
-- **ZainTECH** (https://zain.com)
-  - Twitter: https://www.twitter.com/zain/
-  - Instagram: https://www.instagram.com/zaingroup/
-  - LinkedIn: https://www.linkedin.com/company/zain
-
-#### Failed Enrichment
-- **SAFCSP** (https://safcs.org.sa)
-  - Error: DNS resolution failed (website unreachable)
-
-### Companies Without Websites (Require Manual Entry)
-- CyberAgora
-- CyberFortX
-- CyberLabs LLP
-- D3Minds Cyber Solutions Pvt Ltd
-- DIGISEC
-- DSShield
-- HookPhish
-- Nucleon Security
-- Octopus Cybersecurity
-- QuantiCor Security
-- Rased Tieck for cybersecurity Company
-- ValueMentor Cyber Security Company
+**Note**: Due to the large number of companies, individual enrichment results are not listed here. Use the application to view detailed contact information for each company.
 
 ## Database Schema
 

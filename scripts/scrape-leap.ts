@@ -1,7 +1,11 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
 import * as cheerio from 'cheerio';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const CYBERSECURITY_KEYWORDS = [
   'cybersecurity',
@@ -60,7 +64,11 @@ function isCybersecurityCompany(description: string): boolean {
 }
 
 async function scrapeLeapDirectory(): Promise<Company[]> {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
   const page = await browser.newPage();
   
   console.log('Loading LEAP directory...');
@@ -77,50 +85,55 @@ async function scrapeLeapDirectory(): Promise<Company[]> {
   const $ = cheerio.load(content);
   const companies: Company[] = [];
 
-  // Parse the directory structure
-  // The page has headers with company names followed by descriptions
-  $('h3').each((index, element) => {
-    const name = $(element).text().trim();
-    
-    // Get the description from the next sibling or following text
-    let description = '';
-    let descriptionAr = '';
-    let website = '';
-    
-    const nextElement = $(element).next();
-    if (nextElement.length > 0) {
-      const text = nextElement.text();
+  // Extract data from the JavaScript variable D
+  const scriptContent = $('body').html() || '';
+  
+  // Find the var D = [...] array
+  const match = scriptContent.match(/var D=\[([\s\S]*?)\];/);
+  
+  if (match) {
+    try {
+      // Parse the JSON data
+      const jsonStr = '[' + match[1] + ']';
+      const data = JSON.parse(jsonStr);
       
-      // Split Arabic and English descriptions
-      const lines = text.split('\n').filter(line => line.trim());
+      console.log(`Found ${data.length} companies in LEAP directory`);
       
-      // First line is usually Arabic description
-      if (lines.length > 0) {
-        descriptionAr = lines[0].trim();
-      }
-      
-      // Remaining lines are English description
-      if (lines.length > 1) {
-        description = lines.slice(1).join(' ').trim();
-      }
-      
-      // Extract website links
-      const links = nextElement.find('a');
-      if (links.length > 0) {
-        website = links.first().attr('href') || '';
-      }
-    }
-
-    if (name && description) {
-      companies.push({
-        name,
-        nameAr: name, // Assuming the displayed name is Arabic
-        description,
-        descriptionAr,
-        website: website || undefined,
+      // Also extract websites from the HTML structure
+      const websiteMap = new Map<string, string>();
+      $('.c').each((index, element) => {
+        const name = $(element).find('h3').text().trim();
+        const websiteLink = $(element).find('.ft .w').first();
+        if (websiteLink.length > 0) {
+          const href = websiteLink.attr('href');
+          if (href && href !== '#') {
+            websiteMap.set(name, href);
+          }
+        }
       });
+      
+      console.log(`Found websites for ${websiteMap.size} companies`);
+      
+      // Convert to our Company format
+      data.forEach((item: any) => {
+        const name = item.n || '';
+        const website = websiteMap.get(name) || item.w || undefined;
+        companies.push({
+          name,
+          nameAr: name, // Using same name for both
+          description: item.d || '',
+          descriptionAr: item.a || '',
+          website: website,
+          booth: item.b || undefined,
+          hall: item.h || undefined,
+        });
+      });
+    } catch (error) {
+      console.error('Error parsing JSON data:', error);
     }
-  });
+  } else {
+    console.error('Could not find company data in page');
+  }
 
   return companies;
 }
