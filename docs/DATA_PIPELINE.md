@@ -79,19 +79,48 @@ For each cybersecurity company:
 5. Flag companies with missing data for manual entry
 
 ### Current Status
-- **Not yet implemented**
-- Companies with known websites: 7/20
-- Companies requiring enrichment: 13/20
+- **Completed on 2025-01-07**
+- Companies with known websites: 8/20
+- Companies successfully enriched: 7/8 (SAFCSP website was unreachable)
+- Companies requiring manual entry: 12/20
 
-### Companies with Websites
-- Aikido Security: https://aikido.dev
-- Algosec: https://algosec.com
-- CrowdStrike: https://crowdstrike.com
-- ESET Middle East: https://eset.com
-- SAFCSP: https://safcs.org.sa
-- Sangfor: https://sangfor.com
-- Tahakom: https://tahakom.com.sa
-- ZainTECH: https://zain.com
+### Enrichment Results
+
+#### Successfully Enriched Companies
+- **Aikido Security** (https://aikido.dev)
+  - LinkedIn: https://www.linkedin.com/company/aikido-security/
+  - Twitter: https://twitter.com/AikidoSecurity
+
+- **Algosec** (https://algosec.com)
+  - LinkedIn: https://www.linkedin.com/company/algosec
+
+- **CrowdStrike** (https://crowdstrike.com)
+  - Phone: (888) 512-8906
+  - LinkedIn: https://www.linkedin.com/company/crowdstrike
+  - Instagram: https://www.instagram.com/crowdstrike/?hl=en
+
+- **ESET Middle East** (https://eset.com)
+  - Twitter: https://twitter.com/eset
+  - LinkedIn: https://www.linkedin.com/company/esetnorthamerica
+  - Instagram: https://www.instagram.com/eset
+
+- **Sangfor Technologies Arabia limited** (https://sangfor.com)
+  - LinkedIn: https://www.linkedin.com/company/sangfor-technologies
+  - Twitter: https://twitter.com/SANGFOR
+  - Instagram: https://www.instagram.com/sangfortechnologies/
+
+- **Saudi Technology and Security Comprehensive Control Company Co. Ltd (Tahakom)** (https://tahakom.com.sa)
+  - LinkedIn: https://www.linkedin.com/company/tahakom-group/
+  - Twitter: https://twitter.com/tahakom_sa
+
+- **ZainTECH** (https://zain.com)
+  - Twitter: https://www.twitter.com/zain/
+  - Instagram: https://www.instagram.com/zaingroup/
+  - LinkedIn: https://www.linkedin.com/company/zain
+
+#### Failed Enrichment
+- **SAFCSP** (https://safcs.org.sa)
+  - Error: DNS resolution failed (website unreachable)
 
 ### Companies Without Websites (Require Manual Entry)
 - CyberAgora
@@ -147,13 +176,33 @@ Seeds the database with company data from companies.json.
 npx ts-node scripts/seed-database.ts
 ```
 
-### `scripts/enrich-contacts.ts` (Planned)
-Enriches company data with contact details from websites.
+### `scripts/enrich-contacts.ts`
+Enriches company data with contact details from websites using Puppeteer and Cheerio.
 
 **Usage:**
 ```bash
 npx ts-node scripts/enrich-contacts.ts
 ```
+
+**Features:**
+- Scrapes company websites for email, phone, and social media links
+- Uses regex patterns to extract contact information
+- Handles rate limiting with 2-second delays between requests
+- Updates database with enriched data
+
+### `scripts/cleanup-contacts.ts`
+Cleans up invalid contact data extracted during enrichment.
+
+**Usage:**
+```bash
+npx ts-node scripts/cleanup-contacts.ts
+```
+
+**Features:**
+- Validates email addresses using regex
+- Validates phone numbers (7-15 digits)
+- Removes false positives and invalid data
+- Filters out common non-contact emails (test, noreply, etc.)
 
 ## Database Management
 
