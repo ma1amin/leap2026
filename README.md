@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LEAP 2026 Cybersecurity Directory
+
+A cybersecurity-focused directory platform based on the LEAP 2026 exhibition, featuring filtered company listings, full contact details, and export capabilities.
+
+## Features
+
+- **Cybersecurity Filtering**: AI-powered keyword matching to identify cybersecurity companies
+- **Contact Enrichment**: Automated web scraping to extract email, phone, and social media details
+- **Searchable Interface**: Real-time search and filter functionality
+- **Export Options**: Single entry and bulk export in CSV, Excel (XLSX), and JSON formats
+- **Bilingual Support**: Arabic and English company descriptions
+- **Responsive Design**: Mobile-friendly interface
+
+## Tech Stack
+
+- **Frontend**: Next.js 14 (React) with TypeScript, TailwindCSS
+- **Backend**: Next.js API routes
+- **Database**: SQLite with Prisma ORM
+- **Deployment**: Railway
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/ma1amin/leap2026.git
+cd leap2026
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables:
+```bash
+cp .env.example .env
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Set up the database:
+```bash
+npx prisma generate
+npx prisma migrate dev --name init
+npx ts-node scripts/seed-database.ts
+```
 
-## Learn More
+5. Run the development server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Documentation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [Setup Instructions](docs/SETUP.md) - Detailed setup guide
+- [API Documentation](docs/API.md) - API endpoints and usage
+- [Data Pipeline](docs/DATA_PIPELINE.md) - Scraping and enrichment process
+- [Deployment Guide](docs/DEPLOYMENT.md) - Deployment instructions
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+e:/leap/
+├── docs/                 # Documentation
+├── prisma/              # Database schema and migrations
+├── scripts/             # Data scripts (scraping, seeding)
+├── src/
+│   ├── app/            # Next.js app directory
+│   │   ├── api/        # API routes
+│   │   └── company/    # Company pages
+│   ├── components/     # React components
+│   └── lib/           # Utility functions
+├── data/              # Static data files
+└── package.json
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Development
+
+### Database Management
+
+View database:
+```bash
+npx prisma studio
+```
+
+Reset database:
+```bash
+npx prisma migrate reset
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+### Production
+
+```bash
+npm start
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## License
+
+MIT
