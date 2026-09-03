@@ -10,6 +10,7 @@ interface Company {
   nameAr?: string;
   description: string;
   descriptionAr?: string;
+  category?: string;
   website?: string;
   email?: string;
   phone?: string;

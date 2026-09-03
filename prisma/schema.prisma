@@ -13,6 +13,7 @@ model Company {
   nameAr        String?
   description   String
   descriptionAr String?
+  category      String?
   website       String?
   email         String?
   phone         String?
