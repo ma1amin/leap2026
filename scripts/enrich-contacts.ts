@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
 import { PrismaClient } from '@prisma/client';
 import * as cheerio from 'cheerio';
 
@@ -86,6 +86,7 @@ async function scrapeWebsite(url: string): Promise<ContactData> {
   
   const browser = await puppeteer.launch({
     headless: true,
+    executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 

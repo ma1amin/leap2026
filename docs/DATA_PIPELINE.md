@@ -177,7 +177,7 @@ npx ts-node scripts/seed-database.ts
 ```
 
 ### `scripts/enrich-contacts.ts`
-Enriches company data with contact details from websites using Puppeteer and Cheerio.
+Enriches company data with contact details from websites using puppeteer-core and Cheerio.
 
 **Usage:**
 ```bash
@@ -185,10 +185,13 @@ npx ts-node scripts/enrich-contacts.ts
 ```
 
 **Features:**
+- Uses puppeteer-core with native Chrome installation to avoid Windows security blocking
 - Scrapes company websites for email, phone, and social media links
 - Uses regex patterns to extract contact information
 - Handles rate limiting with 2-second delays between requests
 - Updates database with enriched data
+
+**Note:** This script uses puppeteer-core instead of puppeteer to avoid downloading bundled Chromium. It points to the native Chrome installation at `C:\Program Files\Google\Chrome\Application\chrome.exe`.
 
 ### `scripts/cleanup-contacts.ts`
 Cleans up invalid contact data extracted during enrichment.
@@ -229,6 +232,6 @@ npx prisma studio
 ## Notes
 
 - Contact enrichment success rate depends on website quality
-- Some companies may require manual data entry
+- Companies without websites will not have contact data (manual entry not available)
 - The pipeline is designed to be idempotent - can be rerun safely
-- Missing contact data is flagged for manual review
+- Missing contact data is not flagged for manual review

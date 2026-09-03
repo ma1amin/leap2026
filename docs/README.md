@@ -29,7 +29,7 @@ This platform extracts and filters cybersecurity companies from the LEAP 2026 di
 - Puppeteer/Playwright for web scraping
 
 ### Deployment
-- Railway (same as original platform)
+- Local development only (Railway deployment not required)
 
 ## Project Structure
 
