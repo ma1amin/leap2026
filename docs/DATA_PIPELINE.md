@@ -16,7 +16,7 @@ The data pipeline consists of three main stages:
 - Total companies: 1475
 
 ### Method
-Due to Windows security policy blocking Puppeteer, we manually curated a list of cybersecurity companies based on the LEAP directory content.
+Using puppeteer-core with native Chrome installation to avoid Windows security policy blocking. The script extracts company data from the JavaScript variable D in the LEAP directory page and also extracts websites from the HTML structure.
 
 ### Output
 - `data/companies.json`: JSON file containing company data
@@ -114,13 +114,20 @@ model Company {
 
 ## Scripts
 
-### `scripts/parse-leap-data.ts`
-Creates the initial companies.json file with cybersecurity company data.
+### `scripts/scrape-leap.ts`
+Scrapes the LEAP directory to extract all companies and filters cybersecurity companies.
 
 **Usage:**
 ```bash
-npx ts-node scripts/parse-leap-data.ts
+npx ts-node scripts/scrape-leap.ts
 ```
+
+**Features:**
+- Uses puppeteer-core with native Chrome installation
+- Extracts company data from JavaScript variable D in the page
+- Extracts websites from HTML structure
+- Filters companies using cybersecurity keywords
+- Outputs filtered companies to data/companies.json
 
 ### `scripts/seed-database.ts`
 Seeds the database with company data from companies.json.

@@ -8,12 +8,13 @@ This platform extracts and filters cybersecurity companies from the LEAP 2026 di
 
 ## Features
 
-- **Cybersecurity Filtering**: AI-powered keyword matching to identify cybersecurity companies
-- **Contact Enrichment**: Automated web scraping to extract email, phone, and social media details
+- **Cybersecurity Filtering**: AI-powered keyword matching to identify cybersecurity companies (235 companies extracted from 1,475 total)
+- **Contact Enrichment**: Automated web scraping to extract email, phone, and social media details using puppeteer-core
 - **Searchable Interface**: Real-time search and filter functionality
-- **Export Options**: Single entry and bulk export in CSV, Excel (XLSX), and JSON formats
+- **Pagination**: 20 companies per page with navigation controls
+- **Export Options**: Bulk export in CSV, Excel (XLSX), and JSON formats with loading states
 - **Bilingual Support**: Arabic and English company descriptions
-- **Responsive Design**: Mobile-friendly interface
+- **Responsive Design**: Mobile-friendly interface with optimized table layout
 
 ## Tech Stack
 
