@@ -179,8 +179,18 @@ async function enrichCompanyContacts() {
 
   console.log(`Found ${companies.length} companies with websites to enrich`);
 
+  let processedCount = 0;
+  let skippedCount = 0;
+  let updatedCount = 0;
+
   for (const company of companies) {
     if (!company.website) continue;
+
+    // Skip if company already has contact data
+    if (company.email || company.phone || company.linkedin || company.twitter || company.instagram) {
+      skippedCount++;
+      continue;
+    }
 
     try {
       const contactData = await scrapeWebsite(company.website);
@@ -210,16 +220,21 @@ async function enrichCompanyContacts() {
           data: updateData,
         });
         console.log(`Updated ${company.name} with contact data`);
+        updatedCount++;
       }
+      
+      processedCount++;
+      console.log(`Progress: ${processedCount} processed, ${skippedCount} skipped, ${updatedCount} updated`);
       
       // Add delay between requests to avoid rate limiting
       await new Promise(resolve => setTimeout(resolve, 2000));
     } catch (error) {
       console.error(`Failed to enrich ${company.name}:`, error);
+      processedCount++;
     }
   }
 
-  console.log('Contact enrichment completed');
+  console.log(`Contact enrichment completed. Processed: ${processedCount}, Skipped: ${skippedCount}, Updated: ${updatedCount}`);
 }
 
 async function main() {
