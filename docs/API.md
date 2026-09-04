@@ -140,13 +140,14 @@ Export companies as CSV.
 **Query Parameters:**
 - `ids` (optional): Comma-separated list of company IDs to export
 - `category` (optional): Filter by category
+- `hall` (optional): Filter by hall (H1, H2, H3, H4, H5, H1A)
 
 **Response:**
 CSV file with headers: Name, Name (Arabic), Description, Description (Arabic), Category, Website, Email, Phone, LinkedIn, Twitter, Instagram, Booth, Hall
 
 **Example:**
 ```bash
-GET /api/export/csv
+GET /api/export/csv?hall=H1
 ```
 
 #### GET /api/export/excel
@@ -155,6 +156,7 @@ Export companies as Excel (XLSX) file.
 **Query Parameters:**
 - `ids` (optional): Comma-separated list of company IDs to export
 - `category` (optional): Filter by category
+- `hall` (optional): Filter by hall (H1, H2, H3, H4, H5, H1A)
 
 **Response:**
 - Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
@@ -162,7 +164,7 @@ Export companies as Excel (XLSX) file.
 
 **Example:**
 ```bash
-GET /api/export/excel
+GET /api/export/excel?category=ai
 ```
 
 #### GET /api/export/json
@@ -171,6 +173,7 @@ Export companies as JSON file.
 **Query Parameters:**
 - `ids` (optional): Comma-separated list of company IDs to export
 - `category` (optional): Filter by category
+- `hall` (optional): Filter by hall (H1, H2, H3, H4, H5, H1A)
 
 **Response:**
 - Content-Type: application/json
@@ -205,6 +208,14 @@ Get dashboard statistics.
     "education": number,
     "retail": number,
     "other": number
+  },
+  "byHall": {
+    "H1": number,
+    "H2": number,
+    "H3": number,
+    "H4": number,
+    "H5": number,
+    "H1A": number
   }
 }
 ```

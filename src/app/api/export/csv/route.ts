@@ -6,6 +6,7 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const ids = searchParams.get('ids');
     const category = searchParams.get('category');
+    const hall = searchParams.get('hall');
 
     const where: any = {};
 
@@ -15,6 +16,10 @@ export async function GET(request: NextRequest) {
 
     if (category && category !== 'all') {
       where.category = category;
+    }
+
+    if (hall && hall !== 'all') {
+      where.hall = hall;
     }
 
     const companies = await prisma.company.findMany({

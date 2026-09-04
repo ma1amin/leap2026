@@ -6,6 +6,7 @@ import SearchBar from '@/components/SearchBar';
 import ExportButton from '@/components/ExportButton';
 import DashboardStats from '@/components/DashboardStats';
 import Toast from '@/components/Toast';
+import ThemeToggle from '@/components/ThemeToggle';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Company {
@@ -89,21 +90,56 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl/Cmd + F to focus search
+      if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+        e.preventDefault();
+        const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
+        if (searchInput) searchInput.focus();
+      }
+      
+      // Arrow keys for pagination
+      if (e.key === 'ArrowLeft' && currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+      if (e.key === 'ArrowRight' && currentPage < totalPages) {
+        setCurrentPage(currentPage + 1);
+      }
+      
+      // Escape to clear filters
+      if (e.key === 'Escape') {
+        setSearchQuery('');
+        setCategoryFilter('all');
+        setHallFilter('all');
+        setCurrentPage(1);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentPage, totalPages]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-xl p-8 text-white shadow-lg">
-          <h1 className="text-4xl font-bold mb-2">
-            LEAP 2026 Directory
-          </h1>
-          <p className="text-blue-100 text-lg">
-            Browse all 1,475 companies from LEAP 2026 exhibition
-          </p>
+          <div className="flex justify-between items-start">
+            <div>
+              <h1 className="text-4xl font-bold mb-2">
+                LEAP 2026 Directory
+              </h1>
+              <p className="text-blue-100 text-lg">
+                Browse all 1,475 companies from LEAP 2026 exhibition
+              </p>
+            </div>
+            <ThemeToggle />
+          </div>
         </div>
 
         <DashboardStats />
 
-        <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
+        <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between sticky top-0 z-10 bg-white py-4 border-b border-gray-200 shadow-sm">
           <div className="flex flex-col sm:flex-row gap-4 w-full">
             <div className="w-full sm:w-48">
               <select
@@ -149,7 +185,7 @@ export default function Home() {
               <SearchBar value={searchQuery} onChange={setSearchQuery} />
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             {selectedIds.size > 0 && (
               <button
                 onClick={() => {
@@ -165,6 +201,28 @@ export default function Home() {
             <ExportButton format="csv" label="Export All CSV" onExport={() => setToast({ message: 'Exported all companies to CSV', type: 'success' })} />
             <ExportButton format="excel" label="Export All Excel" onExport={() => setToast({ message: 'Exported all companies to Excel', type: 'success' })} />
             <ExportButton format="json" label="Export All JSON" onExport={() => setToast({ message: 'Exported all companies to JSON', type: 'success' })} />
+            {categoryFilter !== 'all' && (
+              <button
+                onClick={() => {
+                  window.open(`/api/export/csv?category=${categoryFilter}`, '_blank');
+                  setToast({ message: `Exported ${categoryFilter} companies`, type: 'success' });
+                }}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              >
+                Export {categoryFilter.charAt(0).toUpperCase() + categoryFilter.slice(1)}
+              </button>
+            )}
+            {hallFilter !== 'all' && (
+              <button
+                onClick={() => {
+                  window.open(`/api/export/csv?hall=${hallFilter}`, '_blank');
+                  setToast({ message: `Exported ${hallFilter} companies`, type: 'success' });
+                }}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                Export {hallFilter}
+              </button>
+            )}
           </div>
         </div>
 

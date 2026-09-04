@@ -18,14 +18,19 @@ export async function GET() {
         },
       }),
       prisma.company.findMany({
-        select: { category: true },
+        select: { category: true, hall: true },
       }),
     ]);
 
     const byCategory: Record<string, number> = {};
+    const byHall: Record<string, number> = {};
     companies.forEach((company) => {
       const cat = company.category || 'other';
       byCategory[cat] = (byCategory[cat] || 0) + 1;
+      
+      if (company.hall) {
+        byHall[company.hall] = (byHall[company.hall] || 0) + 1;
+      }
     });
 
     return NextResponse.json({
@@ -35,6 +40,7 @@ export async function GET() {
       withPhone,
       withSocial,
       byCategory,
+      byHall,
     });
   } catch (error) {
     console.error('Error fetching stats:', error);

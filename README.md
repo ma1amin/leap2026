@@ -42,17 +42,23 @@ This platform extracts all companies from the LEAP 2026 directory, automatically
 
 ### 🎨 User Interface
 - **Modern Gradient Header** - Beautiful blue-purple-pink gradient design
-- **Dashboard Statistics** - Real-time metrics and category breakdown
+- **Dashboard Statistics** - Real-time metrics with interactive charts
+- **Pie Chart** - Visual category breakdown with percentages
+- **Bar Chart** - Hall distribution visualization
 - **Skeleton Loading** - Smooth loading states for better UX
 - **Toast Notifications** - Feedback for user actions
 - **Responsive Design** - Mobile-friendly with optimized breakpoints
 - **Color-Coded Badges** - Visual category and hall indicators
+- **Company Logos** - Gradient logo placeholders with initials
+- **Dark Mode** - Toggle between light and dark themes
+- **Sticky Header** - Navigation controls always visible while scrolling
 
 ### 🔍 Search & Filter
 - **Real-time Search** - Instant filtering by name and description
 - **Category Filter** - Filter by 10 predefined categories
 - **Hall Filter** - Filter by exhibition halls (H1, H2, H3, H4, H5, H1A)
 - **Multi-Select** - Select multiple companies for batch operations
+- **Keyboard Shortcuts** - Ctrl+F for search, Arrow keys for pagination, Escape to clear filters
 
 ### 📤 Export Options
 - **CSV Export** - Standard CSV format with all fields
@@ -60,11 +66,13 @@ This platform extracts all companies from the LEAP 2026 directory, automatically
 - **JSON Export** - Structured JSON for developers
 - **Selected Export** - Export only selected companies
 - **Category Export** - Export by specific category
+- **Hall Export** - Export by specific hall
 - **Loading States** - Visual feedback during export
 
 ### 📊 Dashboard Statistics
 - **Total Companies** - Overall count display
-- **Category Breakdown** - Companies per category with color indicators
+- **Category Breakdown** - Interactive pie chart with percentages
+- **Hall Distribution** - Bar chart showing companies per hall
 - **Website Coverage** - Percentage of companies with websites
 - **Contact Info** - Email and phone availability stats
 - **Social Media** - LinkedIn, Twitter, Instagram coverage

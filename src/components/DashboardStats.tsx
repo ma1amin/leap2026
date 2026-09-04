@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 
 interface Stats {
   total: number;
   byCategory: Record<string, number>;
+  byHall: Record<string, number>;
   withWebsites: number;
   withEmail: number;
   withPhone: number;
@@ -47,17 +49,27 @@ export default function DashboardStats() {
   if (!stats) return null;
 
   const categoryColors: Record<string, string> = {
-    cybersecurity: 'bg-red-500',
-    ai: 'bg-purple-500',
-    fintech: 'bg-green-500',
-    cloud: 'bg-blue-500',
-    infrastructure: 'bg-orange-500',
-    consulting: 'bg-yellow-500',
-    healthcare: 'bg-pink-500',
-    education: 'bg-indigo-500',
-    retail: 'bg-teal-500',
-    other: 'bg-gray-500',
+    cybersecurity: '#EF4444',
+    ai: '#A855F7',
+    fintech: '#22C55E',
+    cloud: '#3B82F6',
+    infrastructure: '#F97316',
+    consulting: '#EAB308',
+    healthcare: '#EC4899',
+    education: '#6366F1',
+    retail: '#14B8A6',
+    other: '#6B7280',
   };
+
+  const pieChartData = Object.entries(stats.byCategory).map(([category, count]) => ({
+    name: category.charAt(0).toUpperCase() + category.slice(1),
+    value: count,
+    color: categoryColors[category] || '#6B7280',
+  }));
+
+  const barChartData = Object.entries(stats.byHall)
+    .map(([hall, count]) => ({ hall, count }))
+    .sort((a, b) => a.hall.localeCompare(b.hall));
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -90,16 +102,44 @@ export default function DashboardStats() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm md:col-span-2 lg:col-span-4">
+      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm md:col-span-2">
         <div className="text-sm font-medium text-gray-600 mb-4">Companies by Category</div>
-        <div className="flex flex-wrap gap-3">
-          {Object.entries(stats.byCategory).map(([category, count]) => (
-            <div key={category} className="flex items-center gap-2">
-              <div className={`w-3 h-3 rounded-full ${categoryColors[category] || 'bg-gray-500'}`}></div>
-              <span className="text-sm text-gray-700 capitalize">{category}:</span>
-              <span className="text-sm font-semibold text-gray-900">{count}</span>
-            </div>
-          ))}
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={pieChartData}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {pieChartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm md:col-span-2">
+        <div className="text-sm font-medium text-gray-600 mb-4">Companies by Hall</div>
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={barChartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="hall" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="count" fill="#3B82F6" />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>

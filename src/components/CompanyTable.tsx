@@ -183,27 +183,32 @@ export default function CompanyTable({ companies, loading = false, selectedIds =
                   />
                 </td>
                 <td className="px-4 py-4">
-                  <div className="flex flex-col">
-                    <Link
-                      href={`/company/${company.id}`}
-                      className="text-sm font-semibold text-blue-600 hover:text-blue-900 transition-colors"
-                    >
-                      {company.name}
-                    </Link>
-                    {company.nameAr && (
-                      <span className="text-xs text-gray-500 mt-0.5">{company.nameAr}</span>
-                    )}
-                    {company.website && (
-                      <a
-                        href={company.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs text-gray-400 hover:text-gray-600 flex items-center gap-1 mt-1 transition-colors"
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                      {company.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="flex flex-col">
+                      <Link
+                        href={`/company/${company.id}`}
+                        className="text-sm font-semibold text-blue-600 hover:text-blue-900 transition-colors"
                       >
-                        <ExternalLink className="w-3 h-3 flex-shrink-0" />
-                        <span className="truncate max-w-[200px]">{company.website}</span>
-                      </a>
-                    )}
+                        {company.name}
+                      </Link>
+                      {company.nameAr && (
+                        <span className="text-xs text-gray-500 mt-0.5">{company.nameAr}</span>
+                      )}
+                      {company.website && (
+                        <a
+                          href={company.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-gray-400 hover:text-gray-600 flex items-center gap-1 mt-1 transition-colors"
+                        >
+                          <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                          <span className="truncate max-w-[200px]">{company.website}</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </td>
                 <td className="px-4 py-4">
