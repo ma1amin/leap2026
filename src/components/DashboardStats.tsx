@@ -111,9 +111,9 @@ export default function DashboardStats() {
                 data={pieChartData}
                 cx="50%"
                 cy="50%"
-                labelLine={false}
-                label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}
-                outerRadius={80}
+                labelLine={true}
+                label={({ name, percent }) => `${name}: ${((percent || 0) * 100).toFixed(0)}%`}
+                outerRadius={70}
                 fill="#8884d8"
                 dataKey="value"
                 animationBegin={0}
@@ -129,12 +129,17 @@ export default function DashboardStats() {
                   backgroundColor: 'rgba(255, 255, 255, 0.95)', 
                   borderRadius: '8px',
                   border: '1px solid #e5e7eb',
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                  color: '#1f2937'
                 }}
+                itemStyle={{ color: '#1f2937' }}
+                formatter={(value: any, name: any) => [`${value} companies`, name]}
               />
               <Legend 
-                wrapperStyle={{ fontSize: '12px' }}
+                wrapperStyle={{ fontSize: '12px', color: '#4b5563' }}
                 iconType="circle"
+                verticalAlign="bottom"
+                height={36}
               />
             </PieChart>
           </ResponsiveContainer>
