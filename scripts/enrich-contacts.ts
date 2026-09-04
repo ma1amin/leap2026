@@ -28,6 +28,9 @@ const socialPatterns = {
   instagram: /instagram\.com\/[\w-]+/i,
 };
 
+// Keywords that might indicate contact sections
+const contactKeywords = ['contact', 'about', 'team', 'reach', 'connect', 'get in touch'];
+
 async function extractContactData(html: string, url: string): Promise<ContactData> {
   const $ = cheerio.load(html);
   const data: ContactData = {};
@@ -41,7 +44,11 @@ async function extractContactData(html: string, url: string): Promise<ContactDat
       !email.includes('example') && 
       !email.includes('test') &&
       !email.includes('noreply') &&
-      !email.includes('no-reply')
+      !email.includes('no-reply') &&
+      !email.includes('sentry') &&
+      !email.includes('wixpress') &&
+      !email.includes('.jpg') &&
+      !email.includes('.png')
     );
     if (filteredEmails.length > 0) {
       data.email = filteredEmails[0];
@@ -52,8 +59,13 @@ async function extractContactData(html: string, url: string): Promise<ContactDat
   for (const regex of phoneRegexes) {
     const phones = text.match(regex);
     if (phones && phones.length > 0) {
-      data.phone = phones[0].trim();
-      break;
+      const cleanedPhone = phones[0].trim();
+      // Validate phone length
+      const digitsOnly = cleanedPhone.replace(/\D/g, '');
+      if (digitsOnly.length >= 7 && digitsOnly.length <= 15) {
+        data.phone = cleanedPhone;
+        break;
+      }
     }
   }
 
@@ -75,6 +87,42 @@ async function extractContactData(html: string, url: string): Promise<ContactDat
     // Check for Instagram
     if (!data.instagram && socialPatterns.instagram.test(href)) {
       data.instagram = href.startsWith('http') ? href : `https://${href}`;
+    }
+  });
+
+  // Look for contact sections specifically
+  contactKeywords.forEach(keyword => {
+    const contactSection = $(`*:contains("${keyword}")`).parent();
+    if (contactSection.length > 0) {
+      const sectionText = contactSection.text();
+      
+      // Try to extract email from contact section if not found yet
+      if (!data.email) {
+        const sectionEmails = sectionText.match(emailRegex);
+        if (sectionEmails && sectionEmails.length > 0) {
+          const validEmail = sectionEmails.find(e => 
+            !e.includes('example') && 
+            !e.includes('test') &&
+            !e.includes('noreply')
+          );
+          if (validEmail) data.email = validEmail;
+        }
+      }
+      
+      // Try to extract phone from contact section if not found yet
+      if (!data.phone) {
+        for (const regex of phoneRegexes) {
+          const sectionPhones = sectionText.match(regex);
+          if (sectionPhones && sectionPhones.length > 0) {
+            const cleanedPhone = sectionPhones[0].trim();
+            const digitsOnly = cleanedPhone.replace(/\D/g, '');
+            if (digitsOnly.length >= 7 && digitsOnly.length <= 15) {
+              data.phone = cleanedPhone;
+              break;
+            }
+          }
+        }
+      }
     }
   });
 
@@ -137,19 +185,32 @@ async function enrichCompanyContacts() {
     try {
       const contactData = await scrapeWebsite(company.website);
 
-      // Update company with enriched data
-      await prisma.company.update({
-        where: { id: company.id },
-        data: {
-          email: contactData.email || company.email,
-          phone: contactData.phone || company.phone,
-          linkedin: contactData.linkedin || company.linkedin,
-          twitter: contactData.twitter || company.twitter,
-          instagram: contactData.instagram || company.instagram,
-        },
-      });
-
-      console.log(`Updated ${company.name} with contact data`);
+      // Update company with enriched data (only if new data is valid)
+      const updateData: any = {};
+      
+      if (contactData.email && !company.email) {
+        updateData.email = contactData.email;
+      }
+      if (contactData.phone && !company.phone) {
+        updateData.phone = contactData.phone;
+      }
+      if (contactData.linkedin && !company.linkedin) {
+        updateData.linkedin = contactData.linkedin;
+      }
+      if (contactData.twitter && !company.twitter) {
+        updateData.twitter = contactData.twitter;
+      }
+      if (contactData.instagram && !company.instagram) {
+        updateData.instagram = contactData.instagram;
+      }
+      
+      if (Object.keys(updateData).length > 0) {
+        await prisma.company.update({
+          where: { id: company.id },
+          data: updateData,
+        });
+        console.log(`Updated ${company.name} with contact data`);
+      }
       
       // Add delay between requests to avoid rate limiting
       await new Promise(resolve => setTimeout(resolve, 2000));

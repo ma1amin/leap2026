@@ -68,54 +68,54 @@ export default function CompanyTable({ companies, loading = false, selectedIds =
 
   if (loading) {
     return (
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-48">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-48">
                   Company
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                   Description
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-32">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-32">
                   Category
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-40">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-40">
                   Contact
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-32">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-32">
                   Social
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-24">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-24">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {[1, 2, 3, 4, 5].map((i) => (
                 <tr key={i}>
                   <td className="px-4 py-4">
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2 animate-pulse"></div>
-                    <div className="h-3 bg-gray-200 rounded w-1/2 animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-3/4 mb-2 animate-pulse"></div>
+                    <div className="h-3 bg-gray-200 dark:bg-gray-600 rounded w-1/2 animate-pulse"></div>
                   </td>
                   <td className="px-4 py-4">
-                    <div className="h-4 bg-gray-200 rounded w-full mb-1 animate-pulse"></div>
-                    <div className="h-3 bg-gray-200 rounded w-2/3 animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-full mb-1 animate-pulse"></div>
+                    <div className="h-3 bg-gray-200 dark:bg-gray-600 rounded w-2/3 animate-pulse"></div>
                   </td>
                   <td className="px-4 py-4">
-                    <div className="h-6 bg-gray-200 rounded w-16 animate-pulse"></div>
+                    <div className="h-6 bg-gray-200 dark:bg-gray-600 rounded w-16 animate-pulse"></div>
                   </td>
                   <td className="px-4 py-4">
-                    <div className="h-4 bg-gray-200 rounded w-1/2 mb-1 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/3 animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-1/2 mb-1 animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-1/3 animate-pulse"></div>
                   </td>
                   <td className="px-4 py-4">
-                    <div className="h-4 bg-gray-200 rounded w-1/2 animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-1/2 animate-pulse"></div>
                   </td>
                   <td className="px-4 py-4">
-                    <div className="h-4 bg-gray-200 rounded w-12 animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-12 animate-pulse"></div>
                   </td>
                 </tr>
               ))}
@@ -128,196 +128,202 @@ export default function CompanyTable({ companies, loading = false, selectedIds =
 
   if (companies.length === 0) {
     return (
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm p-12 text-center">
-        <div className="text-gray-500">No companies found</div>
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm p-12 text-center">
+        <div className="text-gray-500 dark:text-gray-400">No companies found</div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-12">
+    <div className="overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead className="bg-gray-50 dark:bg-gray-800">
+          <tr>
+            <th className="px-4 py-3 text-left">
+              <input
+                type="checkbox"
+                checked={allSelected}
+                onChange={(e) => handleSelectAll(e.target.checked)}
+                className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+              />
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-48">
+              Company
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+              Description
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-32">
+              Category
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-20">
+              Hall
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-40">
+              Contact
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-32">
+              Social
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-24">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+          {companies.map((company) => (
+            <tr key={company.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+              <td className="px-4 py-4">
                 <input
                   type="checkbox"
-                  checked={allSelected}
-                  onChange={(e) => handleSelectAll(e.target.checked)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  checked={selectedIds.has(company.id)}
+                  onChange={(e) => handleSelectOne(company.id, e.target.checked)}
+                  className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
                 />
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-48">
-                Company
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Description
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-32">
-                Category
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-20">
-                Hall
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-40">
-                Contact
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-32">
-                Social
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-24">
-                Actions
-              </th>
+              </td>
+              <td className="px-4 py-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                    {company.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="flex flex-col">
+                    <Link
+                      href={`/company/${company.id}`}
+                      className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors"
+                    >
+                      {company.name}
+                    </Link>
+                    {company.nameAr && (
+                      <span className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{company.nameAr}</span>
+                    )}
+                    {company.website && (
+                      <a
+                        href={company.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 flex items-center gap-1 mt-1 transition-colors"
+                      >
+                        <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                        <span className="truncate max-w-[200px]">{company.website}</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </td>
+              <td className="px-4 py-4">
+                <div className="text-sm text-gray-900 dark:text-gray-100 line-clamp-2" title={company.description}>
+                  {company.description}
+                </div>
+                {company.descriptionAr && (
+                  <div className="text-xs text-gray-500 dark:text-gray-400 line-clamp-1 mt-1" title={company.descriptionAr}>
+                    {company.descriptionAr}
+                  </div>
+                )}
+              </td>
+              <td className="px-4 py-4">
+                {company.category && (
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(company.category)}`}>
+                    {company.category}
+                  </span>
+                )}
+                {!company.category && (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+                    N/A
+                  </span>
+                )}
+              </td>
+              <td className="px-4 py-4">
+                {company.hall && (
+                  <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
+                    {company.hall}
+                  </span>
+                )}
+                {!company.hall && (
+                  <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+                    N/A
+                  </span>
+                )}
+              </td>
+              <td className="px-4 py-4">
+                <div className="flex flex-col gap-1">
+                  {company.email && (
+                    <a
+                      href={`mailto:${company.email}`}
+                      className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 flex items-center gap-1 transition-colors"
+                      title={company.email}
+                    >
+                      <Mail className="w-3 h-3 flex-shrink-0" />
+                      <span className="truncate">{company.email}</span>
+                    </a>
+                  )}
+                  {company.phone && (
+                    <a
+                      href={`tel:${company.phone}`}
+                      className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 flex items-center gap-1 transition-colors"
+                      title={company.phone}
+                    >
+                      <Phone className="w-3 h-3 flex-shrink-0" />
+                      <span className="truncate">{company.phone}</span>
+                    </a>
+                  )}
+                  {!company.email && !company.phone && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+                      No contact info
+                    </span>
+                  )}
+                </div>
+              </td>
+              <td className="px-4 py-4">
+                <div className="flex flex-col gap-1 text-xs">
+                  {company.linkedin && (
+                    <a
+                      href={company.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      LinkedIn
+                    </a>
+                  )}
+                  {company.twitter && (
+                    <a
+                      href={company.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 dark:text-gray-400 hover:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                    >
+                      Twitter
+                    </a>
+                  )}
+                  {company.instagram && (
+                    <a
+                      href={company.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
+                    >
+                      Instagram
+                    </a>
+                  )}
+                  {!company.linkedin && !company.twitter && !company.instagram && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+                      No social
+                    </span>
+                  )}
+                </div>
+              </td>
+              <td className="px-4 py-4">
+                <Link
+                  href={`/company/${company.id}`}
+                  className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors"
+                >
+                  View
+                </Link>
+              </td>
             </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {companies.map((company) => (
-              <tr key={company.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-4 py-4">
-                  <input
-                    type="checkbox"
-                    checked={selectedIds.has(company.id)}
-                    onChange={(e) => handleSelectOne(company.id, e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  />
-                </td>
-                <td className="px-4 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                      {company.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div className="flex flex-col">
-                      <Link
-                        href={`/company/${company.id}`}
-                        className="text-sm font-semibold text-blue-600 hover:text-blue-900 transition-colors"
-                      >
-                        {company.name}
-                      </Link>
-                      {company.nameAr && (
-                        <span className="text-xs text-gray-500 mt-0.5">{company.nameAr}</span>
-                      )}
-                      {company.website && (
-                        <a
-                          href={company.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs text-gray-400 hover:text-gray-600 flex items-center gap-1 mt-1 transition-colors"
-                        >
-                          <ExternalLink className="w-3 h-3 flex-shrink-0" />
-                          <span className="truncate max-w-[200px]">{company.website}</span>
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </td>
-                <td className="px-4 py-4">
-                  <div className="text-sm text-gray-900 line-clamp-2" title={company.description}>
-                    {company.description}
-                  </div>
-                  {company.descriptionAr && (
-                    <div className="text-xs text-gray-500 line-clamp-1 mt-1" title={company.descriptionAr}>
-                      {company.descriptionAr}
-                    </div>
-                  )}
-                </td>
-                <td className="px-4 py-4">
-                  {company.category && (
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(company.category)}`}>
-                      {company.category}
-                    </span>
-                  )}
-                  {!company.category && (
-                    <span className="text-xs text-gray-400 italic">N/A</span>
-                  )}
-                </td>
-                <td className="px-4 py-4">
-                  {company.hall && (
-                    <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
-                      {company.hall}
-                    </span>
-                  )}
-                  {!company.hall && (
-                    <span className="text-xs text-gray-400 italic">N/A</span>
-                  )}
-                </td>
-                <td className="px-4 py-4">
-                  <div className="flex flex-col gap-1">
-                    {company.email && (
-                      <a
-                        href={`mailto:${company.email}`}
-                        className="text-xs text-gray-600 hover:text-gray-900 flex items-center gap-1 transition-colors"
-                        title={company.email}
-                      >
-                        <Mail className="w-3 h-3 flex-shrink-0" />
-                        <span className="truncate">{company.email}</span>
-                      </a>
-                    )}
-                    {company.phone && (
-                      <a
-                        href={`tel:${company.phone}`}
-                        className="text-xs text-gray-600 hover:text-gray-900 flex items-center gap-1 transition-colors"
-                        title={company.phone}
-                      >
-                        <Phone className="w-3 h-3 flex-shrink-0" />
-                        <span className="truncate">{company.phone}</span>
-                      </a>
-                    )}
-                    {!company.email && !company.phone && (
-                      <span className="text-xs text-gray-400 italic">No contact info</span>
-                    )}
-                  </div>
-                </td>
-                <td className="px-4 py-4">
-                  <div className="flex flex-col gap-1 text-xs">
-                    {company.linkedin && (
-                      <a
-                        href={company.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-blue-600 transition-colors"
-                      >
-                        LinkedIn
-                      </a>
-                    )}
-                    {company.twitter && (
-                      <a
-                        href={company.twitter}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-blue-400 transition-colors"
-                      >
-                        Twitter
-                      </a>
-                    )}
-                    {company.instagram && (
-                      <a
-                        href={company.instagram}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-pink-600 transition-colors"
-                      >
-                        Instagram
-                      </a>
-                    )}
-                    {!company.linkedin && !company.twitter && !company.instagram && (
-                      <span className="text-gray-400 italic">No social</span>
-                    )}
-                  </div>
-                </td>
-                <td className="px-4 py-4">
-                  <Link
-                    href={`/company/${company.id}`}
-                    className="text-sm font-medium text-blue-600 hover:text-blue-900 transition-colors"
-                  >
-                    View
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

@@ -69,6 +69,15 @@ npm run dev
 
 The application will be available at `http://localhost:3000`
 
+### Dark Mode
+
+The application supports dark mode with the following features:
+- Toggle between light and dark themes using the theme button in the header
+- Theme preference is saved to localStorage and persists across sessions
+- Respects system preference on first visit
+- Smooth transitions between themes
+- All components are fully styled for both light and dark modes
+
 ### Production Mode
 
 Build the application:

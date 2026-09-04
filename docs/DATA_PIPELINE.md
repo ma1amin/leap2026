@@ -106,7 +106,7 @@ For each company with a website:
 
 ### Enrichment Results
 
-All 586 companies with websites have been processed for contact enrichment. Companies with valid websites were scraped for email, phone, and social media links. Invalid data was cleaned up automatically using the cleanup script, which removed invalid emails and phone numbers.
+All 586 companies with websites have been processed for contact enrichment. Companies with valid websites were scraped for email, phone, and social media links. Invalid data was cleaned up automatically using the cleanup script, which removed invalid emails and phone numbers and attempted to extract valid contact information from malformed strings.
 
 **Note**: Due to the large number of companies, individual enrichment results are not listed here. Use the application to view detailed contact information for each company.
 
@@ -188,6 +188,9 @@ npx ts-node scripts/cleanup-contacts.ts
 - Validates phone numbers (7-15 digits)
 - Removes false positives and invalid data
 - Filters out common non-contact emails (test, noreply, etc.)
+- Extracts valid contact information from malformed strings (e.g., "ArabiaEmailHassan.Hadidy@7Bots.aiFollowLinkedInAligned")
+- Validates social media URLs (LinkedIn, Twitter, Instagram)
+- Attempts to recover social links from malformed contact strings
 
 ## Database Management
 

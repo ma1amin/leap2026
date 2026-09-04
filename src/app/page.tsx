@@ -121,9 +121,9 @@ export default function Home() {
   }, [currentPage, totalPages]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-xl p-8 text-white shadow-lg">
+        <div className="mb-8 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-xl p-8 text-white shadow-lg hover:shadow-xl transition-all duration-300">
           <div className="flex justify-between items-start">
             <div>
               <h1 className="text-4xl font-bold mb-2">
@@ -139,7 +139,7 @@ export default function Home() {
 
         <DashboardStats />
 
-        <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between sticky top-0 z-10 bg-white py-4 border-b border-gray-200 shadow-sm">
+        <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between sticky top-0 z-10 bg-white dark:bg-gray-800 py-4 border-b border-gray-200 dark:border-gray-700 shadow-sm backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95">
           <div className="flex flex-col sm:flex-row gap-4 w-full">
             <div className="w-full sm:w-48">
               <select
@@ -148,7 +148,7 @@ export default function Home() {
                   setCategoryFilter(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
               >
                 <option value="all">All Categories</option>
                 <option value="cybersecurity">Cybersecurity</option>
@@ -170,7 +170,7 @@ export default function Home() {
                   setHallFilter(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
               >
                 <option value="all">All Halls</option>
                 <option value="H1">H1</option>
@@ -193,7 +193,7 @@ export default function Home() {
                   window.open(`/api/export/csv?ids=${ids}`, '_blank');
                   setToast({ message: `Exported ${selectedIds.size} companies`, type: 'success' });
                 }}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900 hover:bg-green-200 dark:hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
               >
                 Export Selected ({selectedIds.size})
               </button>
@@ -207,7 +207,7 @@ export default function Home() {
                   window.open(`/api/export/csv?category=${categoryFilter}`, '_blank');
                   setToast({ message: `Exported ${categoryFilter} companies`, type: 'success' });
                 }}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-purple-700 dark:text-purple-300 bg-purple-100 dark:bg-purple-900 hover:bg-purple-200 dark:hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors"
               >
                 Export {categoryFilter.charAt(0).toUpperCase() + categoryFilter.slice(1)}
               </button>
@@ -218,7 +218,7 @@ export default function Home() {
                   window.open(`/api/export/csv?hall=${hallFilter}`, '_blank');
                   setToast({ message: `Exported ${hallFilter} companies`, type: 'success' });
                 }}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900 hover:bg-blue-200 dark:hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
               >
                 Export {hallFilter}
               </button>
@@ -226,7 +226,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mb-4 text-sm text-gray-600">
+        <div className="mb-4 text-sm text-gray-600 dark:text-gray-400">
           {!searchQuery ? (
             <span>
               Showing {companies.length} of {total} companies (Page {currentPage} of {totalPages})
@@ -239,12 +239,12 @@ export default function Home() {
         </div>
 
         {loading ? (
-          <div className="text-center py-12">
-            <div className="text-gray-500">Loading companies...</div>
+          <div className="text-center py-12 animate-fade-in">
+            <div className="text-gray-500 dark:text-gray-400">Loading companies...</div>
           </div>
         ) : searchQuery && filteredCompanies.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-gray-500">No companies found</div>
+          <div className="text-center py-12 animate-fade-in">
+            <div className="text-gray-500 dark:text-gray-400">No companies found</div>
           </div>
         ) : (
           <CompanyTable 
@@ -256,18 +256,18 @@ export default function Home() {
         )}
         
         {!searchQuery && totalPages > 1 && (
-          <div className="mt-6 flex items-center justify-between">
+          <div className="mt-6 flex items-center justify-between animate-fade-in">
             <button
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
             >
               <ChevronLeft className="w-4 h-4 mr-2" />
               Previous
             </button>
             
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-700">
+              <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">
                 Page {currentPage} of {totalPages}
               </span>
             </div>
@@ -275,7 +275,7 @@ export default function Home() {
             <button
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
             >
               Next
               <ChevronRight className="w-4 h-4 ml-2" />

@@ -72,38 +72,38 @@ export default function DashboardStats() {
     .sort((a, b) => a.hall.localeCompare(b.hall));
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-        <div className="text-sm font-medium text-gray-600 mb-1">Total Companies</div>
-        <div className="text-3xl font-bold text-gray-900">{stats.total}</div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-fade-in">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+        <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Total Companies</div>
+        <div className="text-3xl font-bold text-gray-900 dark:text-white">{stats.total}</div>
       </div>
       
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-        <div className="text-sm font-medium text-gray-600 mb-1">With Websites</div>
-        <div className="text-3xl font-bold text-blue-600">{stats.withWebsites}</div>
-        <div className="text-xs text-gray-500 mt-1">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+        <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">With Websites</div>
+        <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">{stats.withWebsites}</div>
+        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           {((stats.withWebsites / stats.total) * 100).toFixed(1)}%
         </div>
       </div>
       
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-        <div className="text-sm font-medium text-gray-600 mb-1">With Contact Info</div>
-        <div className="text-3xl font-bold text-green-600">{stats.withEmail + stats.withPhone}</div>
-        <div className="text-xs text-gray-500 mt-1">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+        <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">With Contact Info</div>
+        <div className="text-3xl font-bold text-green-600 dark:text-green-400">{stats.withEmail + stats.withPhone}</div>
+        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           Email: {stats.withEmail} | Phone: {stats.withPhone}
         </div>
       </div>
       
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-        <div className="text-sm font-medium text-gray-600 mb-1">With Social Media</div>
-        <div className="text-3xl font-bold text-purple-600">{stats.withSocial}</div>
-        <div className="text-xs text-gray-500 mt-1">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+        <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">With Social Media</div>
+        <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">{stats.withSocial}</div>
+        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           {((stats.withSocial / stats.total) * 100).toFixed(1)}%
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm md:col-span-2">
-        <div className="text-sm font-medium text-gray-600 mb-4">Companies by Category</div>
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300 md:col-span-2">
+        <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-4">Companies by Category</div>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
@@ -116,28 +116,66 @@ export default function DashboardStats() {
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
+                animationBegin={0}
+                animationDuration={1000}
+                animationEasing="ease-out"
               >
                 {pieChartData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip />
-              <Legend />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'rgba(255, 255, 255, 0.95)', 
+                  borderRadius: '8px',
+                  border: '1px solid #e5e7eb',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                }}
+              />
+              <Legend 
+                wrapperStyle={{ fontSize: '12px' }}
+                iconType="circle"
+              />
             </PieChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm md:col-span-2">
-        <div className="text-sm font-medium text-gray-600 mb-4">Companies by Hall</div>
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300 md:col-span-2">
+        <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-4">Companies by Hall</div>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={barChartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="hall" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="count" fill="#3B82F6" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" strokeOpacity={0.5} />
+              <XAxis 
+                dataKey="hall" 
+                stroke="#6b7280"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis 
+                stroke="#6b7280"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'rgba(255, 255, 255, 0.95)', 
+                  borderRadius: '8px',
+                  border: '1px solid #e5e7eb',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                }}
+              />
+              <Bar 
+                dataKey="count" 
+                fill="#3B82F6" 
+                radius={[4, 4, 0, 0]}
+                animationBegin={0}
+                animationDuration={1000}
+                animationEasing="ease-out"
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>

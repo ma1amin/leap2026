@@ -3,6 +3,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  --card-text: #171717;
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --button-bg: #3b82f6;
+  --button-text: #ffffff;
 }
 
 @theme inline {
@@ -16,12 +23,26 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --card-bg: #1a1a1a;
+    --card-border: #374151;
+    --card-text: #f3f4f6;
+    --input-bg: #1f2937;
+    --input-border: #4b5563;
+    --button-bg: #60a5fa;
+    --button-text: #ffffff;
   }
 }
 
 .dark {
   --background: #0a0a0a;
   --foreground: #ededed;
+  --card-bg: #1a1a1a;
+  --card-border: #374151;
+  --card-text: #f3f4f6;
+  --input-bg: #1f2937;
+  --input-border: #4b5563;
+  --button-bg: #60a5fa;
+  --button-text: #ffffff;
 }
 
 body {
@@ -42,6 +63,36 @@ body {
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .animate-slide-in {
   animation: slide-in 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out;
 }
