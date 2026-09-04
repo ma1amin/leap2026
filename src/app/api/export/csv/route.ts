@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     return new NextResponse(csv, {
       headers: {
         'Content-Type': 'text/csv',
-        'Content-Disposition': 'attachment; filename="cybersecurity-companies.csv"',
+        'Content-Disposition': 'attachment; filename="leap-companies.csv"',
       },
     });
   } catch (error) {

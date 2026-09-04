@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
     return new NextResponse(Buffer.from(buffer), {
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'Content-Disposition': 'attachment; filename="cybersecurity-companies.xlsx"',
+        'Content-Disposition': 'attachment; filename="leap-companies.xlsx"',
       },
     });
   } catch (error) {

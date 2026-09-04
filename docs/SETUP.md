@@ -1,6 +1,6 @@
 # Setup Instructions
 
-This guide will help you set up the LEAP 2026 Cybersecurity Directory on your local machine.
+This guide will help you set up the LEAP 2026 Directory on your local machine.
 
 ## Prerequisites
 
@@ -44,6 +44,18 @@ This guide will help you set up the LEAP 2026 Cybersecurity Directory on your lo
    
    ```bash
    npx ts-node scripts/seed-database.ts
+   ```
+
+6. **(Optional) Enrich contact data**
+   
+   To scrape company websites for contact information:
+   ```bash
+   npx ts-node scripts/enrich-contacts.ts
+   ```
+
+   To clean up invalid contact data:
+   ```bash
+   npx ts-node scripts/cleanup-contacts.ts
    ```
 
 ## Running the Application

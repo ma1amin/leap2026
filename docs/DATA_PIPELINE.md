@@ -1,12 +1,12 @@
 # Data Pipeline Documentation
 
-This document describes the data collection, filtering, and enrichment process for the LEAP 2026 Cybersecurity Directory.
+This document describes the data collection, categorization, and enrichment process for the LEAP 2026 Directory.
 
 ## Overview
 
 The data pipeline consists of three main stages:
-1. **Data Collection**: Extracting companies from the LEAP 2026 directory
-2. **Cybersecurity Filtering**: Identifying cybersecurity-related companies
+1. **Data Collection**: Extracting all companies from the LEAP 2026 directory
+2. **Category Classification**: Auto-assigning categories based on keyword matching
 3. **Contact Enrichment**: Extracting contact details from company websites
 
 ## Stage 1: Data Collection
@@ -28,6 +28,7 @@ interface Company {
   nameAr?: string;
   description: string;
   descriptionAr?: string;
+  category?: string;
   website?: string;
   email?: string;
   phone?: string;
@@ -39,44 +40,51 @@ interface Company {
 }
 ```
 
-## Stage 2: Cybersecurity Filtering
+## Stage 2: Category Classification
 
-### Keywords Used
-The following keywords are used to identify cybersecurity companies:
-- cybersecurity, security, cyber
-- threat, protection, firewall, encryption
-- penetration testing, SOC, incident response
-- malware, phishing, zero trust, compliance
-- vulnerability, hacking, defense, secure
-- authentication, authorization, identity
-- access control, network security
-- information security, infosec
-- data protection, privacy
-- risk management, security operations
-- threat intelligence, endpoint security
-- cloud security, application security, devsecops
+### Categories Used
+The following categories are auto-assigned based on keyword matching:
+- **Cybersecurity**: cybersecurity, security, cyber, threat, protection, firewall, encryption, penetration testing, SOC, incident response, malware, phishing, zero trust, compliance, vulnerability, hacking, defense, secure, authentication, authorization, identity, access control, network security, information security, infosec, data protection, privacy, risk management, security operations, threat intelligence, endpoint security, cloud security, application security, devsecops
+- **AI**: ai, artificial intelligence, machine learning, ml, deep learning, nlp, natural language processing, computer vision, neural network, automation, robotics, chatbot, generative ai, llm
+- **Fintech**: fintech, financial, payment, banking, finance, blockchain, crypto, cryptocurrency, digital wallet, transaction, insurance, investment, trading, wealth management
+- **Cloud**: cloud, saas, paas, iaas, hosting, server, computing, storage, virtualization, kubernetes, docker, container
+- **Infrastructure**: infrastructure, it, network, hardware, data center, datacenter, connectivity, telecom, telecommunications, fiber, 5g
+- **Consulting**: consulting, consultancy, advisory, services, solutions, integration, implementation, digital transformation
+- **Healthcare**: health, medical, healthcare, pharma, pharmaceutical, biotech, biotechnology, wellness, clinic, hospital
+- **Education**: education, learning, training, university, school, college, edtech, e-learning, course, academy, institute
+- **Retail**: retail, e-commerce, ecommerce, shopping, commerce, marketplace, store, shop, consumer
+- **Other**: Any company not matching the above categories
 
-### Filtering Process
+### Classification Process
 1. Company name and description are analyzed
-2. Keyword matching identifies cybersecurity-related companies
-3. Manual review of borderline cases
+2. Keyword matching identifies the most relevant category
+3. If no keywords match, company is classified as "other"
 
 ### Results
-- Total companies analyzed: 1475
-- Cybersecurity companies identified: 20
+- Total companies analyzed: 1,475
+- AI: 437 companies
+- Other: 535 companies
+- Infrastructure: 178 companies
+- Cybersecurity: 232 companies
+- Fintech: 35 companies
+- Consulting: 37 companies
+- Cloud: 11 companies
+- Healthcare: 5 companies
+- Education: 4 companies
+- Retail: 1 company
 
 ## Stage 3: Contact Enrichment
 
-### Planned Method
-For each cybersecurity company:
+### Method
+For each company with a website:
 1. Extract website from existing data
 2. Scrape company website for:
    - Contact page (email, phone)
    - About page (social media links)
    - Footer (contact details)
-3. Use structured data extraction
+3. Use structured data extraction with Cheerio
 4. Store all found contact information
-5. Flag companies with missing data for manual entry
+5. Clean up invalid data automatically
 
 ### Current Status
 - **Total companies extracted**: 1,475 companies from LEAP 2026 directory
@@ -98,7 +106,7 @@ For each cybersecurity company:
 
 ### Enrichment Results
 
-All 586 companies with websites have been processed for contact enrichment. Companies with valid websites were scraped for email, phone, and social media links. Invalid data was cleaned up automatically.
+All 586 companies with websites have been processed for contact enrichment. Companies with valid websites were scraped for email, phone, and social media links. Invalid data was cleaned up automatically using the cleanup script, which removed invalid emails and phone numbers.
 
 **Note**: Due to the large number of companies, individual enrichment results are not listed here. Use the application to view detailed contact information for each company.
 
@@ -111,6 +119,7 @@ model Company {
   nameAr        String?
   description   String
   descriptionAr String?
+  category      String?
   website       String?
   email         String?
   phone         String?
@@ -139,7 +148,7 @@ npx ts-node scripts/scrape-leap.ts
 - Extracts company data from JavaScript variable D in the page
 - Extracts websites from HTML structure
 - Auto-assigns categories based on keyword matching (cybersecurity, ai, fintech, cloud, infrastructure, consulting, healthcare, education, retail, other)
-- Outputs all companies to data/companies.json
+- Outputs all 1,475 companies to data/companies.json
 
 ### `scripts/seed-database.ts`
 Seeds the database with company data from companies.json.

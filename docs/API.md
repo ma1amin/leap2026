@@ -1,6 +1,6 @@
 # API Documentation
 
-This document describes the API endpoints for the LEAP 2026 Cybersecurity Directory.
+This document describes the API endpoints for the LEAP 2026 Directory.
 
 ## Base URL
 ```
@@ -31,6 +31,7 @@ Get all companies with optional search, category, hall, and pagination.
       "nameAr": "string | null",
       "description": "string",
       "descriptionAr": "string | null",
+      "category": "string | null",
       "website": "string | null",
       "email": "string | null",
       "phone": "string | null",
@@ -73,6 +74,7 @@ Get a single company by ID.
   "nameAr": "string | null",
   "description": "string",
   "descriptionAr": "string | null",
+  "category": "string | null",
   "website": "string | null",
   "email": "string | null",
   "phone": "string | null",
@@ -104,6 +106,7 @@ Update a company's details.
   "nameAr": "string",
   "description": "string",
   "descriptionAr": "string",
+  "category": "string",
   "website": "string",
   "email": "string",
   "phone": "string",
@@ -155,7 +158,7 @@ Export companies as Excel (XLSX) file.
 
 **Response:**
 - Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-- Content-Disposition: attachment; filename="cybersecurity-companies.xlsx"
+- Content-Disposition: attachment; filename="leap-companies.xlsx"
 
 **Example:**
 ```bash
@@ -163,11 +166,15 @@ GET /api/export/excel
 ```
 
 #### GET /api/export/json
-Export all companies as JSON file.
+Export companies as JSON file.
+
+**Query Parameters:**
+- `ids` (optional): Comma-separated list of company IDs to export
+- `category` (optional): Filter by category
 
 **Response:**
 - Content-Type: application/json
-- Content-Disposition: attachment; filename="cybersecurity-companies.json"
+- Content-Disposition: attachment; filename="leap-companies.json"
 
 **Example:**
 ```bash
@@ -237,6 +244,7 @@ interface Company {
   nameAr?: string;
   description: string;
   descriptionAr?: string;
+  category?: string;
   website?: string;
   email?: string;
   phone?: string;
@@ -273,7 +281,7 @@ const blob = await response.blob();
 const url = window.URL.createObjectURL(blob);
 const a = document.createElement('a');
 a.href = url;
-a.download = 'cybersecurity-companies.csv';
+a.download = 'leap-companies.csv';
 a.click();
 ```
 

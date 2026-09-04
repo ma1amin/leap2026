@@ -30,8 +30,8 @@ This platform extracts all companies from the LEAP 2026 directory (1,475 compani
 
 ### Backend
 - Node.js with Next.js API routes
-- PostgreSQL database with Prisma ORM
-- Puppeteer/Playwright for web scraping
+- SQLite database with Prisma ORM
+- Puppeteer-core for web scraping
 
 ### Deployment
 - Local development only (Railway deployment not required)

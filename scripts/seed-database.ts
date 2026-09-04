@@ -13,6 +13,7 @@ interface Company {
   nameAr?: string;
   description: string;
   descriptionAr?: string;
+  category?: string;
   website?: string;
   email?: string;
   phone?: string;
@@ -45,6 +46,7 @@ async function main() {
           nameAr: company.nameAr,
           description: company.description,
           descriptionAr: company.descriptionAr,
+          category: company.category,
           website: company.website,
           email: company.email,
           phone: company.phone,
