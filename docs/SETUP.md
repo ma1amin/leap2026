@@ -77,6 +77,13 @@ The application supports dark mode with the following features:
 - Respects system preference on first visit
 - Smooth transitions between themes
 - All components are fully styled for both light and dark modes
+- Built with Tailwind CSS v3 using class-based dark mode
+
+**Configuration:**
+- Dark mode is configured in `tailwind.config.ts` with `darkMode: 'class'`
+- The `ThemeToggle` component adds/removes the `dark` class on the `html` element
+- CSS transitions are applied in `globals.css` for smooth theme switching
+- All components use `dark:` prefix for dark mode styling
 
 ### Production Mode
 

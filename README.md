@@ -43,18 +43,19 @@ This platform extracts all companies from the LEAP 2026 directory, automatically
 ### 🎨 User Interface
 - **Modern Gradient Header** - Beautiful blue-purple-pink gradient design
 - **Dashboard Statistics** - Real-time metrics with interactive charts
-- **Pie Chart** - Visual category breakdown with percentages and animations
-- **Bar Chart** - Hall distribution visualization with animations
+- **Pie Chart** - Visual category breakdown with percentages, animations, and clear legend
+- **Bar Chart** - Hall distribution visualization with animations and tooltips
 - **Skeleton Loading** - Smooth loading states for better UX
 - **Toast Notifications** - Feedback for user actions
 - **Responsive Design** - Mobile-friendly with optimized breakpoints
 - **Color-Coded Badges** - Visual category and hall indicators
 - **Company Logos** - Gradient logo placeholders with initials
-- **Dark Mode** - Toggle between light and dark themes with smooth transitions
+- **Dark Mode** - Toggle between light and dark themes with smooth transitions (Tailwind v3)
 - **Sticky Header** - Navigation controls always visible while scrolling with glassmorphism
 - **Smooth Animations** - Fade-in, scale-in, and hover effects throughout
 - **Enhanced Typography** - Improved spacing and font weights
 - **Glassmorphism Effects** - Backdrop blur and semi-transparent backgrounds
+- **Visual Indicators** - Styled badges for missing contact/social data
 
 ### 🔍 Search & Filter
 - **Real-time Search** - Instant filtering by name and description
@@ -338,19 +339,14 @@ For complete API documentation, see [API.md](./docs/API.md).
 - 🔒 No sensitive data exposed in client-side code
 - 🔒 Database credentials managed via environment variables
 - 🔒 Input validation on all API endpoints
-- 🔒 Rate limiting recommended for production
-- 🔒 HTTPS recommended for production deployment
 
 ---
 
 ## 🚧 Future Enhancements
 
 ### Planned Features
-- 📊 Advanced charts for statistics (Recharts integration)
 - 🗺️ Interactive hall map for booth locations
 - 🔔 Real-time notifications for updates
-- 🌙 Dark mode toggle
-- ⌨️ Keyboard shortcuts
 - 📱 PWA support for offline access
 - 🔍 Advanced search with filters panel
 - 📋 Export templates and scheduling

@@ -169,9 +169,14 @@ npx ts-node scripts/enrich-contacts.ts
 **Features:**
 - Uses puppeteer-core with native Chrome installation to avoid Windows security blocking
 - Scrapes company websites for email, phone, and social media links
-- Uses regex patterns to extract contact information
+- Uses enhanced regex patterns to extract contact information
+- Detects contact sections in HTML for better data extraction
 - Handles rate limiting with 2-second delays between requests
-- Updates database with enriched data
+- Skips companies that already have contact data (non-destructive)
+- Only updates database with new valid data (doesn't overwrite existing)
+- Progress tracking with processed, skipped, and updated counts
+- Validates phone number length (7-15 digits)
+- Filters out common non-contact emails (test, noreply, etc.)
 
 **Note:** This script uses puppeteer-core instead of puppeteer to avoid downloading bundled Chromium. It points to the native Chrome installation at `C:\Program Files\Google\Chrome\Application\chrome.exe`.
 
