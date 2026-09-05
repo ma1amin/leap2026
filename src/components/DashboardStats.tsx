@@ -110,22 +110,10 @@ export default function DashboardStats() {
               <Pie
                 data={pieChartData}
                 cx="50%"
-                cy="50%"
+                cy="45%"
                 labelLine={false}
-                label={({ percent }) => (
-                  <text 
-                    fill="#ffffff" 
-                    fontSize="14" 
-                    fontWeight="bold"
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    style={{ textShadow: '0px 0px 3px rgba(0,0,0,0.8)' }}
-                  >
-                    {`${((percent || 0) * 100).toFixed(0)}%`}
-                  </text>
-                )}
-                outerRadius={100}
-                innerRadius={0}
+                label={({ percent }) => `${((percent || 0) * 100).toFixed(0)}%`}
+                outerRadius={90}
                 fill="#8884d8"
                 dataKey="value"
                 animationBegin={0}
@@ -152,9 +140,13 @@ export default function DashboardStats() {
                 iconType="circle"
                 verticalAlign="bottom"
                 height={50}
-                formatter={(value: string, entry: any) => {
-                  const percent = ((entry.payload.value / stats.total) * 100).toFixed(1);
-                  return `${value}: ${percent}%`;
+                formatter={(value: string) => {
+                  const entry = pieChartData.find((item: any) => item.name === value);
+                  if (entry) {
+                    const percent = ((entry.value / stats.total) * 100).toFixed(1);
+                    return `${value}: ${percent}%`;
+                  }
+                  return value;
                 }}
               />
             </PieChart>
