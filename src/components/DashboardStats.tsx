@@ -104,16 +104,16 @@ export default function DashboardStats() {
 
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300 md:col-span-2">
         <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-4">Companies by Category</div>
-        <div className="h-64">
+        <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={pieChartData}
                 cx="50%"
-                cy="50%"
-                labelLine={true}
-                label={({ name, percent }) => `${name}: ${((percent || 0) * 100).toFixed(0)}%`}
-                outerRadius={70}
+                cy="45%"
+                labelLine={false}
+                label={({ percent }) => `${((percent || 0) * 100).toFixed(0)}%`}
+                outerRadius={90}
                 fill="#8884d8"
                 dataKey="value"
                 animationBegin={0}
@@ -136,10 +136,14 @@ export default function DashboardStats() {
                 formatter={(value: any, name: any) => [`${value} companies`, name]}
               />
               <Legend 
-                wrapperStyle={{ fontSize: '12px', color: '#4b5563' }}
+                wrapperStyle={{ fontSize: '13px', color: '#4b5563', fontWeight: '500' }}
                 iconType="circle"
                 verticalAlign="bottom"
-                height={36}
+                height={50}
+                formatter={(value: string, entry: any) => {
+                  const percent = ((entry.payload.value / stats.total) * 100).toFixed(1);
+                  return `${value}: ${percent}%`;
+                }}
               />
             </PieChart>
           </ResponsiveContainer>
