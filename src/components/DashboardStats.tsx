@@ -11,6 +11,12 @@ interface Stats {
   withEmail: number;
   withPhone: number;
   withSocial: number;
+  totalIndividuals: number;
+  individualsWithEmail: number;
+  individualsWithPhone: number;
+  individualsWithSocial: number;
+  byCategoryIndividuals: Record<string, number>;
+  byHallIndividuals: Record<string, number>;
 }
 
 export default function DashboardStats() {
@@ -71,6 +77,16 @@ export default function DashboardStats() {
     .map(([hall, count]) => ({ hall, count }))
     .sort((a, b) => a.hall.localeCompare(b.hall));
 
+  const pieChartDataIndividuals = Object.entries(stats.byCategoryIndividuals || {}).map(([category, count]) => ({
+    name: category.charAt(0).toUpperCase() + category.slice(1),
+    value: count,
+    color: categoryColors[category] || '#6B7280',
+  }));
+
+  const barChartDataIndividuals = Object.entries(stats.byHallIndividuals || {})
+    .map(([hall, count]) => ({ hall, count }))
+    .sort((a, b) => a.hall.localeCompare(b.hall));
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-fade-in">
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300">
@@ -99,6 +115,36 @@ export default function DashboardStats() {
         <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">{stats.withSocial}</div>
         <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           {((stats.withSocial / stats.total) * 100).toFixed(1)}%
+        </div>
+      </div>
+
+      {/* Individual Statistics */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+        <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Total Individuals</div>
+        <div className="text-3xl font-bold text-gray-900 dark:text-white">{stats.totalIndividuals || 0}</div>
+      </div>
+      
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+        <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Individuals with Email</div>
+        <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">{stats.individualsWithEmail || 0}</div>
+        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          {stats.totalIndividuals ? ((stats.individualsWithEmail / stats.totalIndividuals) * 100).toFixed(1) : 0}%
+        </div>
+      </div>
+      
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+        <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Individuals with Phone</div>
+        <div className="text-3xl font-bold text-green-600 dark:text-green-400">{stats.individualsWithPhone || 0}</div>
+        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          {stats.totalIndividuals ? ((stats.individualsWithPhone / stats.totalIndividuals) * 100).toFixed(1) : 0}%
+        </div>
+      </div>
+      
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+        <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Individuals with Social</div>
+        <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">{stats.individualsWithSocial || 0}</div>
+        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          {stats.totalIndividuals ? ((stats.individualsWithSocial / stats.totalIndividuals) * 100).toFixed(1) : 0}%
         </div>
       </div>
 
@@ -159,40 +205,121 @@ export default function DashboardStats() {
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={barChartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" strokeOpacity={0.5} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis 
                 dataKey="hall" 
-                stroke="#6b7280"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
+                tick={{ fill: '#6b7280', fontSize: 12 }}
+                axisLine={{ stroke: '#e5e7eb' }}
               />
               <YAxis 
-                stroke="#6b7280"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
+                tick={{ fill: '#6b7280', fontSize: 12 }}
+                axisLine={{ stroke: '#e5e7eb' }}
               />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: 'rgba(255, 255, 255, 0.95)', 
                   borderRadius: '8px',
                   border: '1px solid #e5e7eb',
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                  color: '#1f2937'
                 }}
+                itemStyle={{ color: '#1f2937' }}
+                formatter={(value: any) => [`${value} companies`, 'Count']}
               />
-              <Bar 
-                dataKey="count" 
-                fill="#3B82F6" 
-                radius={[4, 4, 0, 0]}
-                animationBegin={0}
-                animationDuration={1000}
-                animationEasing="ease-out"
-              />
+              <Bar dataKey="count" fill="#3B82F6" animationBegin={0} animationDuration={1000} animationEasing="ease-out" />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
+
+      {/* Individual Charts */}
+      {pieChartDataIndividuals.length > 0 && (
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300 md:col-span-2">
+          <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-4">Individuals by Category</div>
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={pieChartDataIndividuals}
+                  cx="50%"
+                  cy="45%"
+                  labelLine={false}
+                  label={({ percent }) => `${((percent || 0) * 100).toFixed(0)}%`}
+                  outerRadius={90}
+                  fill="#8884d8"
+                  dataKey="value"
+                  animationBegin={0}
+                  animationDuration={1000}
+                  animationEasing="ease-out"
+                >
+                  {pieChartDataIndividuals.map((entry, index) => (
+                    <Cell key={`cell-ind-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)', 
+                    borderRadius: '8px',
+                    border: '1px solid #e5e7eb',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                    color: '#1f2937'
+                  }}
+                  itemStyle={{ color: '#1f2937' }}
+                  formatter={(value: any, name: any) => [`${value} individuals`, name]}
+                />
+                <Legend 
+                  wrapperStyle={{ fontSize: '13px', color: '#4b5563', fontWeight: '500' }}
+                  iconType="circle"
+                  verticalAlign="bottom"
+                  height={50}
+                  formatter={(value: string) => {
+                    const entry = pieChartDataIndividuals.find((item: any) => item.name === value);
+                    if (entry) {
+                      const percent = ((entry.value / (stats.totalIndividuals || 1)) * 100).toFixed(1);
+                      return `${value}: ${percent}%`;
+                    }
+                    return value;
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
+      {barChartDataIndividuals.length > 0 && (
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-all duration-300 md:col-span-2">
+          <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-4">Individuals by Hall</div>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={barChartDataIndividuals}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis 
+                  dataKey="hall" 
+                  tick={{ fill: '#6b7280', fontSize: 12 }}
+                  axisLine={{ stroke: '#e5e7eb' }}
+                />
+                <YAxis 
+                  tick={{ fill: '#6b7280', fontSize: 12 }}
+                  axisLine={{ stroke: '#e5e7eb' }}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)', 
+                    borderRadius: '8px',
+                    border: '1px solid #e5e7eb',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                    color: '#1f2937'
+                  }}
+                  itemStyle={{ color: '#1f2937' }}
+                  formatter={(value: any) => [`${value} individuals`, 'Count']}
+                />
+                <Bar dataKey="count" fill="#10B981" animationBegin={0} animationDuration={1000} animationEasing="ease-out" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

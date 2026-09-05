@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import CompanyTable from '@/components/CompanyTable';
 import SearchBar from '@/components/SearchBar';
 import ExportButton from '@/components/ExportButton';
@@ -133,7 +134,15 @@ export default function Home() {
                 Browse all 1,475 companies from LEAP 2026 exhibition
               </p>
             </div>
-            <ThemeToggle />
+            <div className="flex gap-4 items-center">
+              <Link
+                href="/individuals"
+                className="px-4 py-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg text-white font-medium transition-colors"
+              >
+                Individuals
+              </Link>
+              <ThemeToggle />
+            </div>
           </div>
         </div>
 

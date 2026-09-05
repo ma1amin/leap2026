@@ -4,22 +4,36 @@ This document describes the data collection, categorization, and enrichment proc
 
 ## Overview
 
-The data pipeline consists of three main stages:
+The data pipeline consists of two main data sources:
+1. **Companies**: Extracting all companies from the LEAP 2026 directory
+2. **Individuals**: Extracting attendee information from the LEAP 2026 people page
+
+### Company Pipeline Stages
 1. **Data Collection**: Extracting all companies from the LEAP 2026 directory
 2. **Category Classification**: Auto-assigning categories based on keyword matching
 3. **Contact Enrichment**: Extracting contact details from company websites
 
+### Individual Pipeline Stages
+1. **Data Collection**: Extracting individuals from LEAP 2026 people page with authentication
+2. **Category Classification**: Auto-assigning categories based on keyword matching
+
 ## Stage 1: Data Collection
 
-### Source
+### Company Source
 - LEAP 2026 Directory: https://leap-directory-production.up.railway.app
 - Total companies: 1475
+
+### Individual Source
+- **Status**: Sample data only (scraping blocked by anti-bot protection)
+- LEAP 2026 People Page: https://connect.onegiantleap.com/event/leap2026/people/RXZlbnRWaWV3XzIwNzA1NzI=
+- Note: Automated scraping is blocked by the platform's anti-bot detection system. Multiple authentication methods were attempted (cookies, Chrome profiles, interactive login) but all failed due to security measures. Current implementation uses sample data for UI testing and functionality demonstration.
 
 ### Method
 Using puppeteer-core with native Chrome installation to avoid Windows security policy blocking. The script extracts all company data from the JavaScript variable D in the LEAP directory page and also extracts websites from the HTML structure. Companies are automatically categorized based on keyword matching.
 
 ### Output
 - `data/companies.json`: JSON file containing company data
+- `data/individuals.json`: JSON file containing individual data
 
 ### Data Structure
 ```typescript
@@ -35,6 +49,23 @@ interface Company {
   linkedin?: string;
   twitter?: string;
   instagram?: string;
+  booth?: string;
+  hall?: string;
+}
+
+interface Individual {
+  name: string;
+  nameAr?: string;
+  title?: string;
+  company?: string;
+  email?: string;
+  phone?: string;
+  linkedin?: string;
+  twitter?: string;
+  instagram?: string;
+  bio?: string;
+  bioAr?: string;
+  category?: string;
   booth?: string;
   hall?: string;
 }
@@ -179,6 +210,37 @@ npx ts-node scripts/enrich-contacts.ts
 - Filters out common non-contact emails (test, noreply, etc.)
 
 **Note:** This script uses puppeteer-core instead of puppeteer to avoid downloading bundled Chromium. It points to the native Chrome installation at `C:\Program Files\Google\Chrome\Application\chrome.exe`.
+
+### `scripts/scrape-individuals.ts`
+Scrapes individual attendee data from the LEAP 2026 people page with authentication.
+
+**Usage:**
+```bash
+npx ts-node scripts/scrape-individuals.ts
+```
+
+**Authentication:**
+The script requires Firefox session cookies for authentication:
+1. Open Firefox and log into https://connect.onegiantleap.com/event/leap2026/people/RXZlbnRWaWV3XzIwNzA1NzI=
+2. Open Developer Tools (F12) → Application/Storage → Cookies
+3. Export cookies for `connect.onegiantleap.com` domain
+4. Save as `cookies.json` in the project root
+
+**Features:**
+- Uses puppeteer-core with native Chrome installation
+- Loads Firefox session cookies for authentication
+- Extracts individual data from the LEAP people page
+- Auto-assigns categories based on keyword matching
+- Outputs individual data to data/individuals.json
+- Handles cookie expiration gracefully
+
+### `scripts/seed-individuals.ts`
+Seeds the database with individual data from individuals.json.
+
+**Usage:**
+```bash
+npx ts-node scripts/seed-individuals.ts
+```
 
 ### `scripts/cleanup-contacts.ts`
 Cleans up invalid contact data extracted during enrichment.

@@ -25,3 +25,23 @@ model Company {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
+
+model Individual {
+  id            String   @id @default(cuid())
+  name          String
+  nameAr        String?
+  title         String?
+  company       String?
+  email         String?
+  phone         String?
+  linkedin      String?
+  twitter       String?
+  instagram     String?
+  bio           String?
+  bioAr         String?
+  category      String?
+  booth         String?
+  hall          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

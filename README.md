@@ -7,7 +7,7 @@
 ![Next.js](https://img.shields.io/badge/Next.js-14-black.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)
 
-**A comprehensive directory platform for 1,475 LEAP 2026 exhibition companies with intelligent categorization and advanced export capabilities**
+**A comprehensive directory platform for 1,475 LEAP 2026 exhibition companies and individuals with intelligent categorization and advanced export capabilities**
 
 [![Demo](https://img.shields.io/badge/demo-live-orange.svg)](http://localhost:3000)
 [![Documentation](https://img.shields.io/badge/docs-view-purple.svg)](./docs/SETUP.md)
@@ -29,6 +29,7 @@ This platform extracts all companies from the LEAP 2026 directory, automatically
 ### 🎯 Key Highlights
 
 - 📊 **1,475 Companies** - Complete directory with full coverage
+- 👥 **Individual Attendees** - Browse LEAP 2026 attendees with detailed profiles (sample data)
 - 🏷️ **10 Categories** - AI, Cybersecurity, Fintech, Cloud, Infrastructure, Consulting, Healthcare, Education, Retail, Other
 - 📧 **Contact Enrichment** - Automated extraction of emails, phones, and social media
 - 🔍 **Advanced Filtering** - Filter by category, hall, and real-time search
@@ -58,27 +59,31 @@ This platform extracts all companies from the LEAP 2026 directory, automatically
 - **Visual Indicators** - Styled badges for missing contact/social data
 
 ### 🔍 Search & Filter
-- **Real-time Search** - Instant filtering by name and description
-- **Category Filter** - Filter by 10 predefined categories
-- **Hall Filter** - Filter by exhibition halls (H1, H2, H3, H4, H5, H1A)
-- **Multi-Select** - Select multiple companies for batch operations
+- **Real-time Search** - Instant search across company names and descriptions
+- **Category Filtering** - Quick filter by industry category
+- **Hall Filtering** - Filter by exhibition hall (H1-H5, H1A)
+- **Multi-select Export** - Select specific companies for export
+- **Individual Search** - Search by name, title, company, or bio
+- **Individual Filtering** - Filter individuals by category and hall
 - **Keyboard Shortcuts** - Ctrl+F for search, Arrow keys for pagination, Escape to clear filters
 
 ### 📤 Export Options
 - **CSV Export** - Standard CSV format with all fields
 - **Excel Export** - XLSX format with proper formatting
 - **JSON Export** - Structured JSON for developers
-- **Selected Export** - Export only selected companies
+- **Selected Export** - Export only selected companies/individuals
 - **Category Export** - Export by specific category
 - **Hall Export** - Export by specific hall
+- **Individual Export** - Export individual attendee data
 - **Loading States** - Visual feedback during export
 
 ### 📊 Dashboard Statistics
 - **Total Companies** - Overall count display
-- **Category Breakdown** - Interactive pie chart with percentages
-- **Hall Distribution** - Bar chart showing companies per hall
+- **Total Individuals** - Attendee count display
+- **Category Breakdown** - Interactive pie chart with percentages (companies & individuals)
+- **Hall Distribution** - Bar chart showing companies/individuals per hall
 - **Website Coverage** - Percentage of companies with websites
-- **Contact Info** - Email and phone availability stats
+- **Contact Info** - Email and phone availability stats (companies & individuals)
 - **Social Media** - LinkedIn, Twitter, Instagram coverage
 
 ---

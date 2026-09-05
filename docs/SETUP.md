@@ -46,7 +46,27 @@ This guide will help you set up the LEAP 2026 Directory on your local machine.
    npx ts-node scripts/seed-database.ts
    ```
 
-6. **(Optional) Enrich contact data**
+6. **(Optional) Scrape and seed individuals**
+   
+   **Note**: Automated scraping of individual attendee data is currently blocked by the LEAP platform's anti-bot detection system. Multiple authentication methods were attempted (cookies, Chrome profiles, interactive login) but all failed due to security measures.
+   
+   The application currently uses sample data (10 individuals) for UI testing and functionality demonstration. To use real attendee data:
+   
+   a. Manual data extraction:
+      - Open Firefox and log into https://connect.onegiantleap.com/event/leap2026/people/RXZlbnRWaWV3XzIwNzA1NzI=
+      - Open Developer Tools (F12) → Network tab
+      - Refresh the page and look for API responses containing individual data
+      - Copy the response data and format it as JSON
+      - Save as `data/individuals.json`
+   
+   b. Seed the individuals data:
+      ```bash
+      npx ts-node scripts/seed-individuals.ts
+      ```
+   
+   Alternatively, contact LEAP support to request official API access for data export.
+
+7. **(Optional) Enrich contact data**
    
    To scrape company websites for contact information:
    ```bash
