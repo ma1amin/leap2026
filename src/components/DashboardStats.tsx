@@ -110,10 +110,22 @@ export default function DashboardStats() {
               <Pie
                 data={pieChartData}
                 cx="50%"
-                cy="45%"
+                cy="50%"
                 labelLine={false}
-                label={({ percent }) => `${((percent || 0) * 100).toFixed(0)}%`}
-                outerRadius={90}
+                label={({ percent }) => (
+                  <text 
+                    fill="#ffffff" 
+                    fontSize="14" 
+                    fontWeight="bold"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    style={{ textShadow: '0px 0px 3px rgba(0,0,0,0.8)' }}
+                  >
+                    {`${((percent || 0) * 100).toFixed(0)}%`}
+                  </text>
+                )}
+                outerRadius={100}
+                innerRadius={0}
                 fill="#8884d8"
                 dataKey="value"
                 animationBegin={0}
